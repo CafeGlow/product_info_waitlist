@@ -1,0 +1,279 @@
+{
+  "site": {
+    "title": "JAGAVE — Pre-launch ritual for inner radiance",
+    "brand": "JAGAVE",
+    "mark": "JG",
+    "waitlistLabel": "Join the Waitlist",
+    "nav": [
+      { "label": "Formula", "href": "#formula" },
+      { "label": "Ritual", "href": "#ritual" },
+      { "label": "Story", "href": "#about" },
+      { "label": "Waitlist", "href": "#waitlist" }
+    ]
+  },
+  "hero": {
+    "eyebrow": ["Pre-launch · No. 001", "Kyoto ↔ Brooklyn"],
+    "title": {
+      "leading": "Your morning ritual,",
+      "emphasis": "reimagined",
+      "trailing": "for inner radiance."
+    },
+    "subheadline": "A small-batch coffee ritual pressed against a quiet library of functional compounds — marine collagen, ceremonial matcha, lion's mane, and L-theanine. Less jitter. More glow. Twenty-four grams of intention, every cup.",
+    "imageUrl": "https://picsum.photos/seed/jagave-morning-pour/800/1000",
+    "imageAlt": "A slow morning coffee ritual in soft ivory ceramic",
+    "frameTag": "Formula Study · No. 001",
+    "frameNote": "↗ 24g ritual",
+    "sideText": "Slow pressed · 18-hour rest · Stone-ground",
+    "ctas": [
+      { "label": "Join the Waitlist", "href": "#waitlist" },
+      { "label": "Discover the Formula", "href": "#formula" }
+    ],
+    "meta": [
+      { "label": "Caffeine", "value": "92 mg" },
+      { "label": "L-Theanine", "value": "200 mg" },
+      { "label": "Collagen", "value": "5 g" },
+      { "label": "Release", "value": "Autumn 2026" }
+    ]
+  },
+  "marquee": [
+    "Single Origin",
+    "Ceremonial Matcha",
+    "L-Theanine",
+    "Marine Collagen",
+    "Lion's Mane",
+    "Camu Camu",
+    "Slow Pressed"
+  ],
+  "manifesto": {
+    "sectionNum": "— 01 / Manifesto",
+    "label": "Our Intention",
+    "title": "A cup of coffee should give <em>more</em> than it takes.",
+    "text": "We believe a cup of coffee should give more than it takes. That mornings deserve a slower ritual. That clarity should not cost you calm. So we pressed twenty grams of single-origin beans against a quiet library of functional compounds — L-theanine for focus, collagen for skin, lion's mane for nerve, ceremonial matcha for grace. The result is not a beverage. It is a daily practice, pressed slowly into twenty-four grams.",
+    "signature": "\"Radiance is not a finish. It is a frequency.\"",
+    "founder": "— Yuki Mori, Founder"
+  },
+  "principles": {
+    "sectionNum": "— 02 / Principles",
+    "title": "Three rules, <em>pressed</em><br>into every batch.",
+    "description": "We treat coffee like skincare — a daily ritual where origin, compound, and patience each carry equal weight. There are no shortcuts. No fillers. No marketing dust. Just three rules we refuse to break.",
+    "items": [
+      {
+        "number": "— Principle 01",
+        "title": "Single Origin,<br>Traceable to the Farm.",
+        "body": "We source from one farm per batch — currently Kyoto Prefecture's Uji highlands, 1,200m elevation, harvested November 2024. Every batch carries the lot number, the farmer's name, and the altitude. If we can't tell you who grew it, we won't make it.",
+        "specs": [
+          { "label": "Origin", "value": "Uji, Kyoto" },
+          { "label": "Altitude", "value": "1,200 m" },
+          { "label": "Harvest", "value": "Nov 2024" },
+          { "label": "Process", "value": "Washed, sun-dried" }
+        ]
+      },
+      {
+        "number": "— Principle 02",
+        "title": "Functional Compounds,<br>Clinically Dosed.",
+        "body": "Every compound is dosed at clinically-studied levels — not pinch-dusted for label appeal. 200mg L-theanine. 5g hydrolyzed marine collagen. 500mg dual-extracted lion's mane. 2g ceremonial-grade matcha. No proprietary blends. No hidden percentages.",
+        "specs": [
+          { "label": "L-Theanine", "value": "200 mg" },
+          { "label": "Collagen", "value": "5,000 mg" },
+          { "label": "Lion's Mane", "value": "500 mg" },
+          { "label": "Matcha", "value": "2,000 mg" }
+        ]
+      },
+      {
+        "number": "— Principle 03",
+        "title": "Cold Brewed Slowly,<br>Over Eighteen Hours.",
+        "body": "We steep the grounds for eighteen hours at 4°C, then reduce the extract at low pressure to preserve the L-theanine and collagen. The result is a concentrate with 67% less acidity than hot-brewed coffee, naturally sweeter, with the functional compounds fully intact.",
+        "specs": [
+          { "label": "Steep", "value": "18 hours" },
+          { "label": "Temp", "value": "4°C" },
+          { "label": "Acidity", "value": "-67% vs. hot" },
+          { "label": "Shelf", "value": "14 days cold" }
+        ]
+      }
+    ]
+  },
+  "formula": {
+    "sectionNum": "— 03 / Formula",
+    "title": "The seven compounds<br>behind your <em>radiance</em>.",
+    "description": "Each ingredient earns its place through three filters: clinically studied, traceable to source, and perceptible in the cup. Scroll sideways to walk the shelf.",
+    "meta": "→ Seven compounds · 24g ritual · Formula study",
+    "progressLabel": "→ Formula Progress",
+    "instructions": "Scroll to explore the shelf"
+  },
+  "ingredients": [
+    {
+      "name": "Single-Origin Bean",
+      "cosmeticBenefit": "Base Compound",
+      "description": "Washed and sun-dried over 14 days at 1,200m elevation. Notes of white tea, citrus peel, and a long mineral finish. The structural base that gives the ritual its gentle caffeine curve.",
+      "botanicalName": "Coffea arabica, var. bourbon",
+      "origin": "Uji, Kyoto",
+      "dose": "12 g",
+      "imageUrl": "https://picsum.photos/seed/jagave-bean-kyoto/600/750",
+      "imageAlt": "Single-origin coffee cherries from Kyoto"
+    },
+    {
+      "name": "Ceremonial Matcha",
+      "cosmeticBenefit": "Antioxidant",
+      "description": "First-flush leaves from a 200-year-old Uji tea garden, stone-ground to 5 microns. Adds a slow-release caffeine tail and vegetal sweetness that rounds the coffee's bitterness.",
+      "botanicalName": "Camellia sinensis, stone-ground",
+      "origin": "Uji, Kyoto",
+      "dose": "2 g",
+      "imageUrl": "https://picsum.photos/seed/jagave-matcha-uji/600/750",
+      "imageAlt": "Ceremonial matcha powder in a stone bowl"
+    },
+    {
+      "name": "L-Theanine",
+      "cosmeticBenefit": "Calm Focus",
+      "description": "A pure amino acid from green tea, fermented enzymatically rather than synthesized. Smooths the caffeine spike into a four-hour plateau — focus without the jitter, calm without the drowsiness.",
+      "botanicalName": "Sun-theanine, enzymatic",
+      "origin": "Yokohama, JP",
+      "dose": "200 mg",
+      "imageUrl": "https://picsum.photos/seed/jagave-theanine/600/750",
+      "imageAlt": "L-theanine crystalline powder"
+    },
+    {
+      "name": "Marine Collagen",
+      "cosmeticBenefit": "Skin Support",
+      "description": "Wild-caught North Atlantic cod, hydrolyzed to a 1,000-dalton peptide for 95% absorption. Type I collagen — the kind your skin actually uses. Dissolves clear, tastes of nothing.",
+      "botanicalName": "Hydrolyzed type I, wild-caught",
+      "origin": "Bergen, NO",
+      "dose": "5,000 mg",
+      "imageUrl": "https://picsum.photos/seed/jagave-collagen-marine/600/750",
+      "imageAlt": "Marine collagen peptide powder"
+    },
+    {
+      "name": "Lion's Mane",
+      "cosmeticBenefit": "Nerve Support",
+      "description": "Fruiting bodies only — no mycelium, no fillers. Dual-extracted in water and alcohol to capture the compounds studied for nerve growth factor stimulation.",
+      "botanicalName": "Hericium erinaceus, dual-extracted",
+      "origin": "Hokkaido, JP",
+      "dose": "500 mg",
+      "imageUrl": "https://picsum.photos/seed/jagave-lions-mane/600/750",
+      "imageAlt": "Lion's mane mushroom extract"
+    },
+    {
+      "name": "Camu Camu",
+      "cosmeticBenefit": "Vitamin C",
+      "description": "A small Amazonian berry, freeze-dried within 48 hours of harvest to preserve the anthocyanins that pair with collagen for skin synthesis and a bright, clean finish.",
+      "botanicalName": "Myrciaria dubia, freeze-dried",
+      "origin": "Iquitos, PE",
+      "dose": "300 mg",
+      "imageUrl": "https://picsum.photos/seed/jagave-camu-camu/600/750",
+      "imageAlt": "Camu camu berries and powder"
+    },
+    {
+      "name": "Volcanic Mineral Water",
+      "cosmeticBenefit": "Mineral Balance",
+      "description": "Drawn from a 90m well in Kagoshima, filtered naturally through Shirasu volcanic tuff. A soft mineral profile that pulls cleanly without bitterness.",
+      "botanicalName": "Filtered through Shirasu tuff",
+      "origin": "Kagoshima, JP",
+      "dose": "220 ml",
+      "imageUrl": "https://picsum.photos/seed/jagave-water-pure/600/750",
+      "imageAlt": "Pure mineral water pour"
+    }
+  ],
+  "ritualMeta": {
+    "sectionNum": "— 04 / Ritual",
+    "title": "Four minutes, <em>four steps</em>,<br>every morning.",
+    "description": "The Jagave ritual is engineered for slowness. Four minutes from kettle to cup — enough time to set an intention, not so long that you skip it. Here's how we make it."
+  },
+  "ritual": [
+    {
+      "title": "Heat water to <em>92°</em>.",
+      "description": "Bring filtered water to a rolling boil, then rest for ninety seconds until it lands at 92°C. Too hot and you'll burn the matcha. Too cool and the collagen won't dissolve. A kitchen thermometer is worth the ten dollars.",
+      "detail": "92°C · 220 ml · 90-second rest"
+    },
+    {
+      "title": "Measure <em>24 grams</em> of Jagave.",
+      "description": "Two level scoops. The dose is calibrated for a 220ml cup. Don't eyeball it. The functional compounds are dosed to the gram, and so is the caffeine.",
+      "detail": "24g · 2 scoops · 92mg caffeine"
+    },
+    {
+      "title": "Whisk in <em>slow circles</em>.",
+      "description": "Pour the water in two stages — first 60ml to bloom, whisk in slow figure-eights for fifteen seconds, then the remaining 160ml in a steady stream. A bamboo chasen is traditional; a milk frother works fine.",
+      "detail": "60ml bloom · 15s whisk · 160ml pour"
+    },
+    {
+      "title": "Wait four minutes. <em>Then drink.</em>",
+      "description": "Let the cup rest. Use the time. Look out a window. Set an intention. Then drink slowly, over the next twenty minutes.",
+      "detail": "4-minute rest · 20-minute drink · 4-hour plateau"
+    }
+  ],
+  "preview": {
+    "sectionNum": "— 05 / Preview",
+    "title": "A ritual in <em>three movements</em>.",
+    "description": "Jagave is still in the studio. Explore the first release through its origin, its formula, and the quiet practice it is being made to support.",
+    "cards": [
+      {
+        "tag": "Origin",
+        "label": "— The Source",
+        "name": "Kyoto <em>Morning</em>",
+        "description": "A traceable single-origin base with the clean, mineral profile that anchors the entire formula.",
+        "cta": "Explore the Origin",
+        "imageUrl": "https://picsum.photos/seed/jagave-origin/600/750",
+        "imageAlt": "Quiet Kyoto coffee farm landscape"
+      },
+      {
+        "tag": "Formula",
+        "label": "— The Compounds",
+        "name": "Inner <em>Radiance</em>",
+        "description": "Seven purposeful compounds chosen for the conversation between focus, calm, and skin-supportive nourishment.",
+        "cta": "Discover the Formula",
+        "imageUrl": "https://picsum.photos/seed/jagave-formula/600/750",
+        "imageAlt": "Botanical ingredients arranged for a formula study"
+      },
+      {
+        "tag": "Practice",
+        "label": "— The Ritual",
+        "name": "Four <em>Minutes</em>",
+        "description": "A measured morning sequence designed to make space for clarity before the day begins asking for it.",
+        "cta": "Explore the Ritual",
+        "imageUrl": "https://picsum.photos/seed/jagave-ritual/600/750",
+        "imageAlt": "Minimal morning ritual beside a ceramic cup"
+      }
+    ]
+  },
+  "testimonial": {
+    "quote": "The clarity is different — less a spike, more a long, flat plateau. My skin texturally changed over six weeks. I'm not going back.",
+    "name": "— Mira Tanaka",
+    "role": "Creative Director, early formula tester"
+  },
+  "waitlist": {
+    "sectionNum": "— 06 / First Pour",
+    "title": "Be there for the <em>first pour</em>.",
+    "description": "Jagave is opening its first batch this autumn. Leave your email for quiet notes from the studio, release timing, and an invitation when the ritual is ready.",
+    "placeholder": "your@email.com",
+    "button": "Join the Waitlist",
+    "note": "↗ Pre-launch notes · No purchase required",
+    "success": "You are on the list. We will write when the first pour is ready."
+  },
+  "footer": {
+    "description": "Pressed slowly in Kyoto and Brooklyn. Twenty-four grams of intention, every morning. Made for radiance, engineered for calm.",
+    "exploreTitle": "Explore",
+    "studioTitle": "Studio",
+    "connectTitle": "Connect",
+    "explore": [
+      { "label": "The Formula", "href": "#formula" },
+      { "label": "The Ritual", "href": "#ritual" },
+      { "label": "Our Farms", "href": "#about" },
+      { "label": "Lab Notes", "href": "#formula" },
+      { "label": "Journal", "href": "#waitlist" }
+    ],
+    "studio": [
+      { "label": "About Jagave", "href": "#about" },
+      { "label": "Contact", "href": "#waitlist" },
+      { "label": "Press", "href": "#waitlist" },
+      { "label": "Careers", "href": "#waitlist" },
+      { "label": "Instagram", "href": "#waitlist" }
+    ],
+    "connect": [
+      { "label": "Join the Waitlist", "href": "#waitlist" },
+      { "label": "Founder Notes", "href": "#about" },
+      { "label": "Ingredient Index", "href": "#formula" },
+      { "label": "Ritual Guide", "href": "#ritual" },
+      { "label": "Kyoto ↔ Brooklyn", "href": "#hero" }
+    ],
+    "copyright": "© 2026 Jagave Studio · Kyoto ↔ Brooklyn",
+    "credit": "Site by Studio Mori · Pressed with care"
+  }
+}

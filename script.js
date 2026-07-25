@@ -1,69 +1,306 @@
-(function() {
+(function () {
   'use strict';
 
-  gsap.registerPlugin(ScrollTrigger);
+  document.addEventListener('DOMContentLoaded', loadSiteData);
 
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+  async function loadSiteData() {
+    try {
+      const response = await fetch('data.json');
+      if (!response.ok) throw new Error(`Unable to load data.json (${response.status})`);
 
-  /* ============ LENIS SMOOTH SCROLL ============ */
-  let lenis = null;
-  if (!prefersReducedMotion) {
-    lenis = new Lenis({
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      smoothTouch: false,
-    });
-    lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => { lenis.raf(time * 1000); });
-    gsap.ticker.lagSmoothing(0);
+      const data = await response.json();
+      populatePage(data);
+      initializePage();
+    } catch (error) {
+      console.error('Jagave content failed to load:', error);
+    }
   }
 
-  // Smooth scroll for anchor links
-  document.querySelectorAll('a[href^="#"]').forEach(a => {
-    a.addEventListener('click', (e) => {
-      const href = a.getAttribute('href');
-      if (href === '#' || href.length < 2) return;
-      const target = document.querySelector(href);
-      if (!target) return;
-      e.preventDefault();
-      if (lenis) {
-        lenis.scrollTo(target, { offset: -60, duration: 1.4 });
-      } else {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      // Close mobile menu if open
-      mobileMenu.classList.remove('is-open');
-      navBurger.classList.remove('is-open');
-    });
-  });
+  function setText(selector, value) {
+    const element = document.querySelector(selector);
+    if (element) element.textContent = value || '';
+  }
 
-  /* ============ CUSTOM CURSOR ============ */
-  if (!isCoarsePointer) {
+  function setMarkup(selector, value) {
+    const element = document.querySelector(selector);
+    if (element) element.innerHTML = value || '';
+  }
+
+  function setImage(selector, imageUrl, alt) {
+    const image = document.querySelector(selector);
+    if (!image) return;
+    image.src = imageUrl;
+    image.alt = alt || '';
+  }
+
+  function escapeHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, (character) => ({
+      '&': '&amp;',
+      '<': '&lt;',
+      '>': '&gt;',
+      '"': '&quot;',
+      "'": '&#039;'
+    }[character]));
+  }
+
+  function createLink(link, className) {
+    return `<a href="${escapeHtml(link.href)}"${className ? ` class="${className}"` : ''} data-hover>${escapeHtml(link.label)}</a>`;
+  }
+
+  function populatePage(data) {
+    document.title = data.site.title;
+    setText('#nav-brand', data.site.brand);
+    setText('#nav-mark', data.site.mark);
+    setText('#footer-brand', data.site.brand);
+    setText('#footer-mark', data.site.mark);
+
+    document.querySelector('#nav-links').innerHTML = data.site.nav.map((link) => `<li>${createLink(link)}</li>`).join('');
+    document.querySelector('#mobile-menu').innerHTML = data.site.nav.map((link, index) => (
+      `<a href="${escapeHtml(link.href)}"><span class="num">${String(index + 1).padStart(2, '0')}</span>${escapeHtml(link.label)}</a>`
+    )).join('');
+    setText('#nav-waitlist', data.site.waitlistLabel);
+
+    populateHero(data.hero);
+    populateMarquee(data.marquee);
+    populateManifesto(data.manifesto);
+    populatePrinciples(data.principles);
+    populateFormula(data.formula);
+    populateIngredients(data.ingredients);
+    populateRitual(data.ritualMeta, data.ritual);
+    populatePreview(data.preview);
+    populateTestimonial(data.testimonial);
+    populateWaitlist(data.waitlist);
+    populateFooter(data.footer);
+  }
+
+  function populateHero(hero) {
+    setText('#hero-eyebrow-left', hero.eyebrow[0]);
+    setText('#hero-eyebrow-right', hero.eyebrow[1]);
+    setText('#hero-title-leading', hero.title.leading);
+    setText('#hero-title-emphasis', hero.title.emphasis);
+    setText('#hero-title-trailing', hero.title.trailing);
+    setText('#hero-sub', hero.subheadline);
+    setText('#hero-frame-tag', hero.frameTag);
+    setText('#hero-frame-num', hero.frameNote);
+    setText('#hero-side-text', hero.sideText);
+    setImage('#hero-image', hero.imageUrl, hero.imageAlt);
+
+    document.querySelector('#hero-cta').innerHTML = hero.ctas.map((cta, index) => (
+      `<a href="${escapeHtml(cta.href)}" class="btn${index ? ' btn-ghost' : ''}" data-hover>` +
+      `<span${index ? ' class="underline"' : ''}>${escapeHtml(cta.label)}</span>` +
+      (index ? '' : '<span class="arrow">→</span>') + '</a>'
+    )).join('');
+
+    document.querySelector('#hero-meta').innerHTML = hero.meta.map((item) => (
+      `<div class="hero-meta-item"><span class="label">${escapeHtml(item.label)}</span><span class="value">${escapeHtml(item.value)}</span></div>`
+    )).join('');
+  }
+
+  function populateMarquee(items) {
+    const marquee = document.querySelector('[data-list="marquee"]');
+    marquee.innerHTML = [...items, ...items].map((item) => `<span class="marquee-item">${escapeHtml(item)}</span>`).join('');
+  }
+
+  function populateManifesto(manifesto) {
+    setText('#manifesto-section-num', manifesto.sectionNum);
+    setText('#manifesto-label', manifesto.label);
+    setMarkup('#manifesto-title', manifesto.title);
+    setText('#manifesto-text', manifesto.text);
+    setText('#manifesto-signature', manifesto.signature);
+    setText('#manifesto-founder', manifesto.founder);
+  }
+
+  function populatePrinciples(principles) {
+    setText('#principles-section-num', principles.sectionNum);
+    setMarkup('#principles-title', principles.title);
+    setText('#principles-description', principles.description);
+
+    document.querySelector('[data-list="principles"]').innerHTML = principles.items.map((item) => (
+      `<div class="feature-col">` +
+      `<span class="feature-num">${escapeHtml(item.number)}</span>` +
+      `<h3 class="feature-title">${item.title}</h3>` +
+      `<p class="feature-body">${escapeHtml(item.body)}</p>` +
+      `<div class="feature-spec">${item.specs.map((spec) => (
+        `<div class="feature-spec-row"><span class="k">${escapeHtml(spec.label)}</span><span class="v">${escapeHtml(spec.value)}</span></div>`
+      )).join('')}</div></div>`
+    )).join('');
+  }
+
+  function populateFormula(formula) {
+    setText('#formula-section-num', formula.sectionNum);
+    setMarkup('#formula-title', formula.title);
+    setText('#formula-description', formula.description);
+    setText('#formula-meta', formula.meta);
+    setText('#pin-progress-label', formula.progressLabel);
+    setText('#pin-instructions', formula.instructions);
+  }
+
+  function populateIngredients(ingredients) {
+    document.querySelector('[data-list="ingredients"]').innerHTML = ingredients.map((ingredient, index) => (
+      `<article class="formula-card" data-hover>` +
+      `<span class="card-num">${String(index + 1).padStart(2, '0')}</span>` +
+      `<div class="card-img"><img src="${escapeHtml(ingredient.imageUrl)}" alt="${escapeHtml(ingredient.imageAlt)}"></div>` +
+      `<span class="card-label">— ${escapeHtml(ingredient.cosmeticBenefit)}</span>` +
+      `<h3 class="card-title">${escapeHtml(ingredient.name)}</h3>` +
+      `<p class="card-latin">${escapeHtml(ingredient.botanicalName)}</p>` +
+      `<p class="card-body">${escapeHtml(ingredient.description)}</p>` +
+      `<div class="card-foot"><span class="origin">${escapeHtml(ingredient.origin)} ↗</span><span class="dose">${escapeHtml(ingredient.dose)}</span></div>` +
+      `</article>`
+    )).join('');
+  }
+
+  function populateRitual(ritualMeta, ritual) {
+    setText('#ritual-section-num', ritualMeta.sectionNum);
+    setMarkup('#ritual-title', ritualMeta.title);
+    setText('#ritual-description', ritualMeta.description);
+
+    document.querySelector('[data-list="ritual"]').innerHTML = ritual.map((step, index) => (
+      `<div class="ritual-step">` +
+      `<span class="step-num">— Step ${String(index + 1).padStart(2, '0')}</span>` +
+      `<h3 class="step-title">${step.title}</h3>` +
+      `<div class="step-body">${escapeHtml(step.description)}<div class="detail">↗ ${escapeHtml(step.detail)}</div></div>` +
+      `</div>`
+    )).join('');
+  }
+
+  function populatePreview(preview) {
+    setText('#preview-section-num', preview.sectionNum);
+    setMarkup('#preview-title', preview.title);
+    setText('#preview-description', preview.description);
+
+    document.querySelector('[data-list="preview"]').innerHTML = preview.cards.map((card) => (
+      `<article class="product-card" data-hover>` +
+      `<div class="product-img"><span class="product-tag">${escapeHtml(card.tag)}</span><img src="${escapeHtml(card.imageUrl)}" alt="${escapeHtml(card.imageAlt)}"></div>` +
+      `<div class="product-meta"><span class="label">${escapeHtml(card.label)}</span></div>` +
+      `<h3 class="product-name">${card.name}</h3>` +
+      `<p class="product-desc">${escapeHtml(card.description)}</p>` +
+      `<div class="product-foot"><a class="btn" href="#formula" data-hover>${escapeHtml(card.cta)} <span class="arrow">→</span></a></div>` +
+      `</article>`
+    )).join('');
+  }
+
+  function populateTestimonial(testimonial) {
+    setMarkup('#testimonial-quote', testimonial.quote);
+    setText('#testimonial-name', testimonial.name);
+    setText('#testimonial-role', testimonial.role);
+  }
+
+  function populateWaitlist(waitlist) {
+    setText('#waitlist-section-num', waitlist.sectionNum);
+    setMarkup('#waitlist-title', waitlist.title);
+    setText('#waitlist-description', waitlist.description);
+    document.querySelector('#waitlist-email').placeholder = waitlist.placeholder;
+    setText('#waitlist-button', waitlist.button);
+    setText('#waitlist-note', waitlist.note);
+    setText('#waitlist-success', waitlist.success);
+  }
+
+  function populateFooter(footer) {
+    setText('#footer-description', footer.description);
+    setText('#footer-explore-title', footer.exploreTitle);
+    setText('#footer-studio-title', footer.studioTitle);
+    setText('#footer-connect-title', footer.connectTitle);
+    document.querySelector('#footer-explore-links').innerHTML = footer.explore.map((link) => `<li>${createLink(link)}</li>`).join('');
+    document.querySelector('#footer-studio-links').innerHTML = footer.studio.map((link) => `<li>${createLink(link)}</li>`).join('');
+    document.querySelector('#footer-connect-links').innerHTML = footer.connect.map((link) => `<li>${createLink(link)}</li>`).join('');
+    setText('#footer-copyright', footer.copyright);
+    setText('#footer-credit', footer.credit);
+  }
+
+  function initializePage() {
+    gsap.registerPlugin(ScrollTrigger);
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+    let lenis = null;
+
+    if (!prefersReducedMotion) {
+      lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        smoothTouch: false,
+      });
+      lenis.on('scroll', ScrollTrigger.update);
+      gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+      gsap.ticker.lagSmoothing(0);
+    }
+
+    const mobileMenu = document.getElementById('mobile-menu');
+    const navBurger = document.getElementById('nav-burger');
+    document.querySelectorAll('a[href^="#"]').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        const href = link.getAttribute('href');
+        if (href === '#' || href.length < 2) return;
+        const target = document.querySelector(href);
+        if (!target) return;
+        event.preventDefault();
+        if (lenis) lenis.scrollTo(target, { offset: -60, duration: 1.4 });
+        else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        mobileMenu.classList.remove('is-open');
+        navBurger.classList.remove('is-open');
+      });
+    });
+
+    if (!isCoarsePointer) initializeCursor();
+
+    const nav = document.getElementById('nav');
+    const backToTop = document.getElementById('back-to-top');
+    function updateNav() {
+      const y = window.scrollY;
+      nav.classList.toggle('is-scrolled', y > 50);
+      backToTop.classList.toggle('is-shown', y > 600);
+    }
+    window.addEventListener('scroll', updateNav, { passive: true });
+    updateNav();
+
+    backToTop.addEventListener('click', () => {
+      if (lenis) lenis.scrollTo(0, { duration: 1.4 });
+      else window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    navBurger.addEventListener('click', () => {
+      navBurger.classList.toggle('is-open');
+      mobileMenu.classList.toggle('is-open');
+    });
+
+    initializeHeroAnimation(prefersReducedMotion);
+    initializeManifestoAnimation(prefersReducedMotion);
+    initializeRitualReveal(prefersReducedMotion);
+    initializePreviewReveal(prefersReducedMotion);
+    initializeHorizontalFormula(prefersReducedMotion);
+    initializeWaitlistForm();
+    initializeSectionAnimations(prefersReducedMotion);
+  }
+
+  function initializeCursor() {
     const dot = document.querySelector('.cursor-dot');
     const ring = document.querySelector('.cursor-ring');
-    let mx = 0, my = 0, rx = 0, ry = 0;
+    let mouseX = 0;
+    let mouseY = 0;
+    let ringX = 0;
+    let ringY = 0;
 
-    document.addEventListener('mousemove', (e) => {
-      mx = e.clientX; my = e.clientY;
-      dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%, -50%)`;
+    document.addEventListener('mousemove', (event) => {
+      mouseX = event.clientX;
+      mouseY = event.clientY;
+      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
     });
 
     function tick() {
-      rx += (mx - rx) * 0.18;
-      ry += (my - ry) * 0.18;
-      ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%, -50%)`;
+      ringX += (mouseX - ringX) * 0.18;
+      ringY += (mouseY - ringY) * 0.18;
+      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
       requestAnimationFrame(tick);
     }
     tick();
 
-    document.querySelectorAll('[data-hover]').forEach(el => {
-      el.addEventListener('mouseenter', () => {
+    document.querySelectorAll('[data-hover]').forEach((element) => {
+      element.addEventListener('mouseenter', () => {
         dot.classList.add('is-hover');
         ring.classList.add('is-hover');
       });
-      el.addEventListener('mouseleave', () => {
+      element.addEventListener('mouseleave', () => {
         dot.classList.remove('is-hover');
         ring.classList.remove('is-hover');
       });
@@ -73,414 +310,165 @@
     document.addEventListener('mouseenter', () => ring.classList.remove('is-hidden'));
   }
 
-  /* ============ NAV SCROLL ============ */
-  const nav = document.getElementById('nav');
-  const backToTop = document.getElementById('back-to-top');
-  function updateNav() {
-    const y = window.scrollY;
-    if (y > 50) nav.classList.add('is-scrolled');
-    else nav.classList.remove('is-scrolled');
-    if (y > 600) backToTop.classList.add('is-shown');
-    else backToTop.classList.remove('is-shown');
-  }
-  window.addEventListener('scroll', updateNav, { passive: true });
-  updateNav();
-
-  backToTop.addEventListener('click', () => {
-    if (lenis) lenis.scrollTo(0, { duration: 1.4 });
-    else window.scrollTo({ top: 0, behavior: 'smooth' });
-  });
-
-  /* ============ MOBILE MENU ============ */
-  const navBurger = document.getElementById('nav-burger');
-  const mobileMenu = document.getElementById('mobile-menu');
-  navBurger.addEventListener('click', () => {
-    navBurger.classList.toggle('is-open');
-    mobileMenu.classList.toggle('is-open');
-  });
-
-  /* ============ HERO 4-BEAT ENTRANCE ============ */
-  if (!prefersReducedMotion) {
-    gsap.timeline({ delay: 0.3 })
-      .to('#hero-eyebrow', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
-      .to('#hero-title',   { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=0.4')
-      .to('#hero-sub',     { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' }, '-=0.7')
-      .to('#hero-cta',     { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5')
-      .to('#hero-meta',    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5')
-      .to('#hero-right',   { opacity: 1, y: 0, scale: 1, duration: 1.4, ease: 'expo.out' }, '-=1.4');
-  } else {
-    document.querySelectorAll('#hero-eyebrow, #hero-title, #hero-sub, #hero-cta, #hero-meta, #hero-right')
-      .forEach(el => { el.style.opacity = 1; el.style.transform = 'none'; });
-  }
-
-  /* ============ MANIFESTO SCRUB BLUR ============ */
-  document.fonts.ready.then(() => {
-    const textEl = document.getElementById('manifesto-text');
-    // Preserve <em> tags
-    const html = textEl.innerHTML;
-    // Split by spaces, but keep em tags intact
-    const parts = html.split(/(\s+)/);
-    textEl.innerHTML = parts.map(part => {
-      if (part.trim() === '') return part;
-      if (part.startsWith('<em>') || part.endsWith('</em>')) {
-        // Wrap words inside em too
-        return part.replace(/(\S+)/g, '<span class="word">$1</span>');
-      }
-      return `<span class="word">${part}</span>`;
-    }).join('');
-
+  function initializeHeroAnimation(prefersReducedMotion) {
+    const heroElements = '#hero-eyebrow, #hero-title, #hero-sub, #hero-cta, #hero-meta, #hero-right';
     if (!prefersReducedMotion) {
-      gsap.to('#manifesto-text .word', {
-        opacity: 1,
-        filter: 'blur(0px)',
-        stagger: 0.04,
-        ease: 'sine.out',
-        scrollTrigger: {
-          trigger: '#manifesto-text',
-          start: 'top 78%',
-          end: 'center 55%',
-          scrub: 1,
-        }
-      });
-
-      gsap.to('#manifesto-sig', {
-        opacity: 1,
-        scrollTrigger: {
-          trigger: '#manifesto-sig',
-          start: 'top 85%',
-          toggleActions: 'play none none reverse',
-        }
-      });
+      gsap.timeline({ delay: 0.3 })
+        .to('#hero-eyebrow', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' })
+        .to('#hero-title', { opacity: 1, y: 0, duration: 1.2, ease: 'power3.out' }, '-=0.4')
+        .to('#hero-sub', { opacity: 1, y: 0, duration: 0.9, ease: 'power2.out' }, '-=0.7')
+        .to('#hero-cta', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5')
+        .to('#hero-meta', { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, '-=0.5')
+        .to('#hero-right', { opacity: 1, y: 0, scale: 1, duration: 1.4, ease: 'expo.out' }, '-=1.4');
     } else {
-      document.querySelectorAll('#manifesto-text .word').forEach(w => {
-        w.style.opacity = 1;
-        w.style.filter = 'none';
+      document.querySelectorAll(heroElements).forEach((element) => {
+        element.style.opacity = 1;
+        element.style.transform = 'none';
       });
-      document.getElementById('manifesto-sig').style.opacity = 1;
     }
-  });
-
-  /* ============ RITUAL STEPS REVEAL ============ */
-  document.querySelectorAll('.ritual-step').forEach((step, i) => {
-    if (prefersReducedMotion) {
-      step.classList.add('is-in');
-      return;
-    }
-    ScrollTrigger.create({
-      trigger: step,
-      start: 'top 80%',
-      onEnter: () => step.classList.add('is-in'),
-      onLeaveBack: () => step.classList.remove('is-in'),
-    });
-  });
-
-  /* ============ PRODUCT CARDS REVEAL ============ */
-  document.querySelectorAll('.product-card').forEach((card, i) => {
-    if (prefersReducedMotion) {
-      card.classList.add('is-in');
-      return;
-    }
-    ScrollTrigger.create({
-      trigger: card,
-      start: 'top 85%',
-      onEnter: () => {
-        gsap.delayedCall(i * 0.12, () => card.classList.add('is-in'));
-      },
-      onLeaveBack: () => card.classList.remove('is-in'),
-    });
-  });
-
-  /* ============ HORIZONTAL PIN SCROLL ============ */
-  const pinViewport = document.getElementById('pin-viewport');
-  const pinStage = document.getElementById('pin-stage');
-  const pinTrack = document.getElementById('pin-track');
-  const pinBar = document.getElementById('pin-bar');
-
-  let pinScrollWidth = 0;
-  let lastY = window.scrollY;
-  let skewTimeout = null;
-
-  function recalcPin() {
-    if (window.innerWidth < 1024) {
-      pinViewport.style.height = '';
-      pinTrack.style.transform = '';
-      return;
-    }
-    pinScrollWidth = pinTrack.scrollWidth - window.innerWidth;
-    pinViewport.style.height = (window.innerHeight + Math.max(0, pinScrollWidth)) + 'px';
   }
 
-  function updatePin() {
-    if (window.innerWidth < 1024) return;
-    const top = pinViewport.getBoundingClientRect().top;
-    if (top <= 0 && top >= -pinScrollWidth) {
-      const p = (-top) / pinScrollWidth;
-      pinTrack.style.transform = `translate3d(${-p * pinScrollWidth}px, 0, 0)`;
-      pinBar.style.width = (p * 100) + '%';
+  function initializeManifestoAnimation(prefersReducedMotion) {
+    document.fonts.ready.then(() => {
+      const textElement = document.getElementById('manifesto-text');
+      textElement.innerHTML = textElement.textContent.split(/(\s+)/).map((part) => (
+        part.trim() ? `<span class="word">${part}</span>` : part
+      )).join('');
 
-      // Skew on velocity
-      const v = window.scrollY - lastY;
-      lastY = window.scrollY;
       if (!prefersReducedMotion) {
-        const skew = Math.max(-8, Math.min(8, v * 0.4));
-        pinTrack.querySelectorAll('.formula-card').forEach(c => {
-          c.style.transform = `skewX(${skew}deg)`;
+        gsap.to('#manifesto-text .word', {
+          opacity: 1,
+          filter: 'blur(0px)',
+          stagger: 0.04,
+          ease: 'sine.out',
+          scrollTrigger: { trigger: '#manifesto-text', start: 'top 78%', end: 'center 55%', scrub: 1 }
         });
-        clearTimeout(skewTimeout);
-        skewTimeout = setTimeout(() => {
-          pinTrack.querySelectorAll('.formula-card').forEach(c => {
-            c.style.transform = 'skewX(0deg)';
-          });
-        }, 200);
-      }
-    } else if (top > 0) {
-      pinTrack.style.transform = 'translate3d(0, 0, 0)';
-      pinBar.style.width = '0%';
-    } else if (top < -pinScrollWidth) {
-      pinTrack.style.transform = `translate3d(${-pinScrollWidth}px, 0, 0)`;
-      pinBar.style.width = '100%';
-    }
-  }
-
-  recalcPin();
-  window.addEventListener('resize', () => {
-    recalcPin();
-    ScrollTrigger.refresh();
-  });
-  window.addEventListener('scroll', updatePin, { passive: true });
-  updatePin();
-
-  /* ============ CART ============ */
-  const cartTrigger = document.getElementById('cart-trigger');
-  const cartDrawer = document.getElementById('cart-drawer');
-  const cartOverlay = document.getElementById('cart-overlay');
-  const cartClose = document.getElementById('cart-close');
-  const cartBody = document.getElementById('cart-body');
-  const cartFoot = document.getElementById('cart-foot');
-  const cartCount = document.getElementById('cart-count');
-  const cartSubtotal = document.getElementById('cart-subtotal');
-  const cartTotal = document.getElementById('cart-total');
-
-  let cart = [];
-
-  function openCart() {
-    cartDrawer.classList.add('is-open');
-    cartOverlay.classList.add('is-open');
-    if (lenis) lenis.stop();
-    document.body.style.overflow = 'hidden';
-  }
-  function closeCart() {
-    cartDrawer.classList.remove('is-open');
-    cartOverlay.classList.remove('is-open');
-    if (lenis) lenis.start();
-    document.body.style.overflow = '';
-  }
-  cartTrigger.addEventListener('click', (e) => { e.preventDefault(); openCart(); });
-  cartClose.addEventListener('click', closeCart);
-  cartOverlay.addEventListener('click', closeCart);
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeCart(); });
-
-  function renderCart() {
-    if (cart.length === 0) {
-      cartBody.innerHTML = `
-        <div class="cart-empty">
-          <span class="label">— Empty</span>
-          <p>Your cart is waiting for its first tin.</p>
-        </div>`;
-      cartFoot.style.display = 'none';
-    } else {
-      cartBody.innerHTML = cart.map((item, i) => `
-        <div class="cart-item" data-i="${i}">
-          <img src="${item.img}" alt="${item.name}">
-          <div>
-            <div class="name">${item.name}</div>
-            <div class="meta">— ${item.tag}</div>
-            <div class="qty">
-              <button class="qty-dec" aria-label="Decrease">−</button>
-              <span class="val">${item.qty}</span>
-              <button class="qty-inc" aria-label="Increase">+</button>
-            </div>
-            <button class="remove" data-remove="${i}">Remove</button>
-          </div>
-          <div class="price">$${item.price * item.qty}</div>
-        </div>
-      `).join('');
-      cartFoot.style.display = 'block';
-      const subtotal = cart.reduce((s, it) => s + it.price * it.qty, 0);
-      cartSubtotal.textContent = '$' + subtotal;
-      cartTotal.textContent = '$' + subtotal;
-
-      // Wire qty buttons
-      cartBody.querySelectorAll('.cart-item').forEach((row, i) => {
-        row.querySelector('.qty-dec').addEventListener('click', () => {
-          if (cart[i].qty > 1) cart[i].qty--;
-          renderCart();
+        gsap.to('#manifesto-sig', {
+          opacity: 1,
+          scrollTrigger: { trigger: '#manifesto-sig', start: 'top 85%', toggleActions: 'play none none reverse' }
         });
-        row.querySelector('.qty-inc').addEventListener('click', () => {
-          cart[i].qty++;
-          renderCart();
-        });
-      });
-      cartBody.querySelectorAll('[data-remove]').forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          const idx = parseInt(e.target.dataset.remove, 10);
-          cart.splice(idx, 1);
-          renderCart();
-        });
-      });
-    }
-    const count = cart.reduce((s, it) => s + it.qty, 0);
-    cartCount.textContent = count;
-  }
-
-  // Product add to cart
-  document.querySelectorAll('.product-card').forEach((card, i) => {
-    const addBtn = card.querySelector('.product-add');
-    const valEl = card.querySelector('.product-qty .val');
-    const incBtn = card.querySelector('.qty-inc');
-    const decBtn = card.querySelector('.qty-dec');
-    const name = card.querySelector('.product-name').textContent.trim();
-    const price = parseInt(card.querySelector('.price').textContent.replace('$', ''), 10);
-    const tag = card.querySelector('.product-tag') ? card.querySelector('.product-tag').textContent : '';
-    const img = card.querySelector('.product-img img').src;
-
-    let qty = 1;
-    incBtn.addEventListener('click', () => {
-      qty++;
-      valEl.textContent = qty;
-    });
-    decBtn.addEventListener('click', () => {
-      if (qty > 1) { qty--; valEl.textContent = qty; }
-    });
-
-    addBtn.addEventListener('click', () => {
-      // Check if already in cart
-      const existing = cart.find(c => c.name === name);
-      if (existing) {
-        existing.qty += qty;
       } else {
-        cart.push({ name, price, tag, img, qty });
-      }
-      addBtn.classList.add('is-added');
-      const original = addBtn.innerHTML;
-      addBtn.innerHTML = '<span>Added ✓</span>';
-      setTimeout(() => {
-        addBtn.classList.remove('is-added');
-        addBtn.innerHTML = original;
-      }, 1600);
-      renderCart();
-      setTimeout(openCart, 400);
-      // Reset qty
-      qty = 1;
-      valEl.textContent = qty;
-    });
-  });
-
-  renderCart();
-
-  /* ============ NEWSLETTER ============ */
-  const newsletterForm = document.getElementById('newsletter-form');
-  const newsletterSuccess = document.getElementById('newsletter-success');
-  newsletterForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const input = newsletterForm.querySelector('input');
-    if (input.value && input.value.includes('@')) {
-      newsletterSuccess.classList.add('is-shown');
-      input.value = '';
-      setTimeout(() => newsletterSuccess.classList.remove('is-shown'), 5000);
-    }
-  });
-
-  /* ============ FEATURES REVEAL ============ */
-  if (!prefersReducedMotion) {
-    gsap.from('.feature-col', {
-      opacity: 0,
-      y: 40,
-      duration: 1,
-      stagger: 0.15,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.features-grid',
-        start: 'top 75%',
-      }
-    });
-
-    gsap.from('.ritual-head > *', {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      stagger: 0.15,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.ritual-head',
-        start: 'top 80%',
-      }
-    });
-
-    gsap.from('.testimonial blockquote > *', {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      stagger: 0.2,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.testimonial',
-        start: 'top 75%',
-      }
-    });
-
-    gsap.from('.newsletter-grid > *', {
-      opacity: 0,
-      y: 40,
-      duration: 1,
-      stagger: 0.2,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.newsletter',
-        start: 'top 75%',
-      }
-    });
-
-    gsap.from('.formula-head > *', {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      stagger: 0.15,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.formula-head',
-        start: 'top 80%',
-      }
-    });
-
-    gsap.from('.features-head > *', {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      stagger: 0.15,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.features-head',
-        start: 'top 80%',
-      }
-    });
-
-    gsap.from('.products-head > *', {
-      opacity: 0,
-      y: 30,
-      duration: 1,
-      stagger: 0.15,
-      ease: 'power3.out',
-      scrollTrigger: {
-        trigger: '.products-head',
-        start: 'top 80%',
+        document.querySelectorAll('#manifesto-text .word').forEach((word) => {
+          word.style.opacity = 1;
+          word.style.filter = 'none';
+        });
+        document.getElementById('manifesto-sig').style.opacity = 1;
       }
     });
   }
 
-  // Refresh ScrollTrigger after fonts load
-  document.fonts.ready.then(() => {
-    ScrollTrigger.refresh();
-  });
+  function initializeRitualReveal(prefersReducedMotion) {
+    document.querySelectorAll('.ritual-step').forEach((step, index) => {
+      if (prefersReducedMotion) {
+        step.classList.add('is-in');
+        return;
+      }
+      ScrollTrigger.create({
+        trigger: step,
+        start: 'top 80%',
+        onEnter: () => step.classList.add('is-in'),
+        onLeaveBack: () => step.classList.remove('is-in'),
+      });
+    });
+  }
 
+  function initializePreviewReveal(prefersReducedMotion) {
+    document.querySelectorAll('.product-card').forEach((card, index) => {
+      if (prefersReducedMotion) {
+        card.classList.add('is-in');
+        return;
+      }
+      ScrollTrigger.create({
+        trigger: card,
+        start: 'top 85%',
+        onEnter: () => gsap.delayedCall(index * 0.12, () => card.classList.add('is-in')),
+        onLeaveBack: () => card.classList.remove('is-in'),
+      });
+    });
+  }
+
+  function initializeHorizontalFormula(prefersReducedMotion) {
+    const pinViewport = document.getElementById('pin-viewport');
+    const pinTrack = document.getElementById('pin-track');
+    const pinBar = document.getElementById('pin-bar');
+    let pinScrollWidth = 0;
+    let lastY = window.scrollY;
+    let skewTimeout = null;
+
+    function recalcPin() {
+      if (window.innerWidth < 1024) {
+        pinViewport.style.height = '';
+        pinTrack.style.transform = '';
+        return;
+      }
+      pinScrollWidth = Math.max(0, pinTrack.scrollWidth - window.innerWidth);
+      pinViewport.style.height = (window.innerHeight + pinScrollWidth) + 'px';
+    }
+
+    function updatePin() {
+      if (window.innerWidth < 1024 || pinScrollWidth === 0) return;
+      const top = pinViewport.getBoundingClientRect().top;
+      if (top <= 0 && top >= -pinScrollWidth) {
+        const progress = (-top) / pinScrollWidth;
+        pinTrack.style.transform = `translate3d(${-progress * pinScrollWidth}px, 0, 0)`;
+        pinBar.style.width = (progress * 100) + '%';
+        const velocity = window.scrollY - lastY;
+        lastY = window.scrollY;
+        if (!prefersReducedMotion) {
+          const skew = Math.max(-8, Math.min(8, velocity * 0.4));
+          pinTrack.querySelectorAll('.formula-card').forEach((card) => { card.style.transform = `skewX(${skew}deg)`; });
+          clearTimeout(skewTimeout);
+          skewTimeout = setTimeout(() => pinTrack.querySelectorAll('.formula-card').forEach((card) => { card.style.transform = 'skewX(0deg)'; }), 200);
+        }
+      } else if (top > 0) {
+        pinTrack.style.transform = 'translate3d(0, 0, 0)';
+        pinBar.style.width = '0%';
+      } else {
+        pinTrack.style.transform = `translate3d(${-pinScrollWidth}px, 0, 0)`;
+        pinBar.style.width = '100%';
+      }
+    }
+
+    recalcPin();
+    window.addEventListener('resize', () => { recalcPin(); ScrollTrigger.refresh(); });
+    window.addEventListener('scroll', updatePin, { passive: true });
+    updatePin();
+  }
+
+  function initializeWaitlistForm() {
+    const form = document.getElementById('waitlist-form');
+    const email = document.getElementById('waitlist-email');
+    const success = document.getElementById('waitlist-success');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (!email.value || !email.checkValidity()) return;
+      success.classList.add('is-shown');
+      email.value = '';
+      setTimeout(() => success.classList.remove('is-shown'), 5000);
+    });
+  }
+
+  function initializeSectionAnimations(prefersReducedMotion) {
+    if (prefersReducedMotion) return;
+    const animations = [
+      ['.feature-col', '.features-grid'],
+      ['.ritual-head > *', '.ritual-head'],
+      ['.testimonial blockquote > *', '.testimonial'],
+      ['.newsletter-grid > *', '.newsletter'],
+      ['.formula-head > *', '.formula-head'],
+      ['.features-head > *', '.features-head'],
+      ['.products-head > *', '.products-head']
+    ];
+    animations.forEach(([target, trigger]) => {
+      gsap.from(target, {
+        opacity: 0,
+        y: 30,
+        duration: 1,
+        stagger: 0.15,
+        ease: 'power3.out',
+        scrollTrigger: { trigger, start: 'top 75%' }
+      });
+    });
+    document.fonts.ready.then(() => ScrollTrigger.refresh());
+  }
 })();
