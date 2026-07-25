@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HIKARI — First Batch · Coffee for Inner Radiance</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Custom Cursor -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+
+<!-- ============ NAV ============ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <a href="#" class="nav-logo" data-hover>HIKARI<sup>FB</sup></a>
+    <ul class="nav-links">
+      <li><a href="#formula" data-hover>Formula</a></li>
+      <li><a href="#ritual" data-hover>Ritual</a></li>
+      <li><a href="#products" data-hover>Shop</a></li>
+      <li><a href="#about" data-hover>Journal</a></li>
+    </ul>
+    <div class="nav-actions">
+      <a href="#" class="nav-action" data-hover>Search</a>
+      <a href="#" class="nav-action" data-hover>Account</a>
+      <button class="nav-action nav-cart" id="cart-trigger" data-hover>
+        <span>Cart</span>
+        <span class="nav-cart-count" id="cart-count">0</span>
+      </button>
+      <button class="nav-burger" id="nav-burger" aria-label="Menu">
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#formula"><span class="num">01</span>Formula</a>
+  <a href="#ritual"><span class="num">02</span>Ritual</a>
+  <a href="#products"><span class="num">03</span>Shop</a>
+  <a href="#about"><span class="num">04</span>Journal</a>
+  <a href="#account"><span class="num">05</span>Account</a>
+</div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="hero">
+  <div class="hero-grid">
+    <div class="hero-left">
+      <div class="hero-eyebrow" id="hero-eyebrow">
+        <span class="dot"></span>
+        <span class="label">First Batch · No. 001</span>
+        <span class="line"></span>
+        <span class="label">Kyoto ↔ Brooklyn</span>
+      </div>
+
+      <h1 class="hero-title" id="hero-title">
+        Your morning coffee,<br>
+        <em>elevated</em> for inner radiance.
+      </h1>
+
+      <p class="hero-sub" id="hero-sub">
+        A small-batch roast pressed against a quiet library of functional compounds — L-theanine, marine collagen, lion's mane, ceremonial matcha. Less jitter. More glow. Twenty-four grams of intention, every cup.
+      </p>
+
+      <div class="hero-ctas" id="hero-cta">
+        <a href="#products" class="btn" data-hover>
+          <span>Shop First Batch</span>
+          <span class="arrow">→</span>
+        </a>
+        <a href="#formula" class="btn btn-ghost" data-hover>
+          <span class="underline">Explore the Formula</span>
+        </a>
+      </div>
+
+      <div class="hero-meta" id="hero-meta">
+        <div class="hero-meta-item">
+          <span class="label">Caffeine</span>
+          <span class="value">92 mg</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">L-Theanine</span>
+          <span class="value">200 mg</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Collagen</span>
+          <span class="value">5 g</span>
+        </div>
+        <div class="hero-meta-item">
+          <span class="label">Rating</span>
+          <span class="value">4.9 / 5.0</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-right" id="hero-right">
+      <div class="hero-frame">
+        <span class="hero-frame-tag">No. 001 · First Batch</span>
+        <img src="https://picsum.photos/seed/hikari-morning-pour/700/1000" alt="A slow morning pour of Hikari coffee in soft ivory ceramic">
+        <span class="hero-frame-num">↗ 24g</span>
+      </div>
+      <span class="hero-side-text">Slow pressed · 18-hour rest · Stone-ground</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MARQUEE ============ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span class="marquee-item">Single Origin</span>
+    <span class="marquee-item">Ceremonial Matcha</span>
+    <span class="marquee-item">L-Theanine</span>
+    <span class="marquee-item">Marine Collagen</span>
+    <span class="marquee-item">Lion's Mane</span>
+    <span class="marquee-item">Camu Camu</span>
+    <span class="marquee-item">Slow Pressed</span>
+    <span class="marquee-item">Single Origin</span>
+    <span class="marquee-item">Ceremonial Matcha</span>
+    <span class="marquee-item">L-Theanine</span>
+    <span class="marquee-item">Marine Collagen</span>
+    <span class="marquee-item">Lion's Mane</span>
+    <span class="marquee-item">Camu Camu</span>
+    <span class="marquee-item">Slow Pressed</span>
+  </div>
+</div>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto" id="about">
+  <div class="container">
+    <div class="manifesto-head">
+      <div>
+        <span class="section-num">— 01 / Manifesto</span>
+        <span class="label">Our Intention</span>
+      </div>
+      <h2 class="serif">A cup of coffee should give <em>more</em> than it takes.</h2>
+    </div>
+
+    <p class="manifesto-text" id="manifesto-text">We believe a cup of coffee should give more than it takes. That mornings deserve a slower ritual. That clarity should not cost you calm. So we pressed twenty grams of single-origin beans against a quiet library of functional compounds — L-theanine for focus, collagen for skin, lion's mane for nerve, ceremonial matcha for grace. The result is not a beverage. It is a daily practice, pressed slowly into twenty-four grams.</p>
+
+    <div class="manifesto-sig" id="manifesto-sig">
+      <span class="sig-line"></span>
+      <div>
+        <div class="sig-text">"Radiance is not a finish. It is a frequency."</div>
+        <div class="sig-name" style="margin-top: 0.6rem;">— Yuki Mori, Founder</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEATURES 3-COLUMN ============ -->
+<section class="features" id="features">
+  <div class="container">
+    <div class="features-head">
+      <div class="left">
+        <span class="section-num">— 02 / Principles</span>
+        <h2 class="serif">Three rules, <em>pressed</em><br>into every batch.</h2>
+      </div>
+      <div class="right">
+        <p>We treat coffee like skincare — a daily ritual where origin, compound, and patience each carry equal weight. There are no shortcuts. No fillers. No marketing dust. Just three rules we refuse to break.</p>
+      </div>
+    </div>
+
+    <div class="features-grid">
+      <div class="feature-col">
+        <span class="feature-num">— Principle 01</span>
+        <h3 class="feature-title">Single Origin,<br>Traceable to the Farm.</h3>
+        <p class="feature-body">We source from one farm per batch — currently Kyoto Prefecture's Uji highlands, 1,200m elevation, harvested November 2024. Every tin carries the lot number, the farmer's name, and the altitude. If we can't tell you who grew it, we won't sell it.</p>
+        <div class="feature-spec">
+          <div class="feature-spec-row"><span class="k">Origin</span><span class="v">Uji, Kyoto</span></div>
+          <div class="feature-spec-row"><span class="k">Altitude</span><span class="v">1,200 m</span></div>
+          <div class="feature-spec-row"><span class="k">Harvest</span><span class="v">Nov 2024</span></div>
+          <div class="feature-spec-row"><span class="k">Process</span><span class="v">Washed, sun-dried</span></div>
+        </div>
+      </div>
+
+      <div class="feature-col">
+        <span class="feature-num">— Principle 02</span>
+        <h3 class="feature-title">Functional Compounds,<br>Clinically Dosed.</h3>
+        <p class="feature-body">Every compound is dosed at clinically-studied levels — not pinch-dusted for label appeal. 200mg Sun-theanine L-theanine. 5g hydrolyzed marine collagen. 500mg dual-extracted lion's mane. 2g ceremonial-grade matcha. No proprietary blends. No hidden percentages.</p>
+        <div class="feature-spec">
+          <div class="feature-spec-row"><span class="k">L-Theanine</span><span class="v">200 mg</span></div>
+          <div class="feature-spec-row"><span class="k">Collagen</span><span class="v">5,000 mg</span></div>
+          <div class="feature-spec-row"><span class="k">Lion's Mane</span><span class="v">500 mg</span></div>
+          <div class="feature-spec-row"><span class="k">Matcha</span><span class="v">2,000 mg</span></div>
+        </div>
+      </div>
+
+      <div class="feature-col">
+        <span class="feature-num">— Principle 03</span>
+        <h3 class="feature-title">Cold Brewed Slowly,<br>Over Eighteen Hours.</h3>
+        <p class="feature-body">We steep the grounds for eighteen hours at 4°C, then reduce the extract at low pressure to preserve the L-theanine and collagen. The result is a concentrate with 67% less acidity than hot-brewed coffee, naturally sweeter, with the functional compounds fully intact.</p>
+        <div class="feature-spec">
+          <div class="feature-spec-row"><span class="k">Steep</span><span class="v">18 hours</span></div>
+          <div class="feature-spec-row"><span class="k">Temp</span><span class="v">4°C</span></div>
+          <div class="feature-spec-row"><span class="k">Acidity</span><span class="v">-67% vs. hot</span></div>
+          <div class="feature-spec-row"><span class="k">Shelf</span><span class="v">14 days cold</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FORMULA — HORIZONTAL PIN ============ -->
+<section class="formula" id="formula">
+  <div class="formula-head">
+    <div>
+      <span class="section-num">— 03 / Formula</span>
+      <h2 class="serif">The six compounds<br>behind your <em>radiance</em>.</h2>
+    </div>
+    <div class="right">
+      <p>Each ingredient earns its place through three filters: clinically studied, traceable to source, and perceptible in the cup. Scroll sideways to walk the shelf.</p>
+      <div class="meta">→ Six compounds · 24g per serving · 03rd Pressing</div>
+    </div>
+  </div>
+
+  <div class="pin-viewport" id="pin-viewport">
+    <div class="pin-stage" id="pin-stage">
+      <div class="pin-track" id="pin-track">
+
+        <article class="formula-card" data-hover>
+          <span class="card-num">01</span>
+          <div class="card-img">
+            <img src="https://picsum.photos/seed/hikari-bean-kyoto/600/750" alt="Single origin coffee cherry">
+          </div>
+          <span class="card-label">— Base Compound</span>
+          <h3 class="card-title">Single-Origin Bean</h3>
+          <p class="card-latin">Coffea arabica, var. bourbon</p>
+          <p class="card-body">Washed and sun-dried over 14 days at 1,200m elevation. Notes of white tea, citrus peel, and a long, mineral finish. The structural base — every other compound is built around its caffeine curve.</p>
+          <div class="card-foot">
+            <span class="origin">Uji, Kyoto ↗</span>
+            <span class="dose">12 g</span>
+          </div>
+        </article>
+
+        <article class="formula-card" data-hover>
+          <span class="card-num">02</span>
+          <div class="card-img">
+            <img src="https://picsum.photos/seed/hikari-matcha-uji/600/750" alt="Ceremonial grade matcha powder">
+          </div>
+          <span class="card-label">— Adaptogen</span>
+          <h3 class="card-title">Ceremonial Matcha</h3>
+          <p class="card-latin">Camellia sinensis, stone-ground</p>
+          <p class="card-body">First-flush leaves from a 200-year-old Uji tea garden, stone-ground to 5 microns. Adds a slow-release caffeine tail and a vegetal sweetness that rounds the coffee's bitterness.</p>
+          <div class="card-foot">
+            <span class="origin">Uji, Kyoto ↗</span>
+            <span class="dose">2 g</span>
+          </div>
+        </article>
+
+        <article class="formula-card" data-hover>
+          <span class="card-num">03</span>
+          <div class="card-img">
+            <img src="https://picsum.photos/seed/hikari-theanine/600/750" alt="L-theanine crystalline powder">
+          </div>
+          <span class="card-label">— Amino Acid</span>
+          <h3 class="card-title">L-Theanine</h3>
+          <p class="card-latin">Sun-theanine® (enzymatic)</p>
+          <p class="card-body">A pure amino acid from green tea, fermented enzymatically rather than synthesized. Smoothes the caffeine spike into a 4-hour plateau — focus without the jitter, calm without the drowsiness.</p>
+          <div class="card-foot">
+            <span class="origin">Yokohama, JP ↗</span>
+            <span class="dose">200 mg</span>
+          </div>
+        </article>
+
+        <article class="formula-card" data-hover>
+          <span class="card-num">04</span>
+          <div class="card-img">
+            <img src="https://picsum.photos/seed/hikari-collagen-marine/600/750" alt="Marine collagen peptide powder">
+          </div>
+          <span class="card-label">— Peptide</span>
+          <h3 class="card-title">Marine Collagen</h3>
+          <p class="card-latin">Hydrolyzed type I, wild-caught</p>
+          <p class="card-body">Wild-caught North Atlantic cod, hydrolyzed to a 1,000-dalton peptide for 95% absorption. Type I collagen — the kind your skin actually uses. Dissolves clear, tastes of nothing.</p>
+          <div class="card-foot">
+            <span class="origin">Bergen, NO ↗</span>
+            <span class="dose">5,000 mg</span>
+          </div>
+        </article>
+
+        <article class="formula-card" data-hover>
+          <span class="card-num">05</span>
+          <div class="card-img">
+            <img src="https://picsum.photos/seed/hikari-lions-mane/600/750" alt="Lion's mane mushroom extract">
+          </div>
+          <span class="card-label">— Nootropic</span>
+          <h3 class="card-title">Lion's Mane</h3>
+          <p class="card-latin">Hericium erinaceus, dual-extracted</p>
+          <p class="card-body">Fruiting bodies only — no mycelium, no fillers. Dual-extracted in water and alcohol to capture both hericenones and erinacines, the compounds studied for nerve growth factor stimulation.</p>
+          <div class="card-foot">
+            <span class="origin">Hokkaido, JP ↗</span>
+            <span class="dose">500 mg</span>
+          </div>
+        </article>
+
+        <article class="formula-card" data-hover>
+          <span class="card-num">06</span>
+          <div class="card-img">
+            <img src="https://picsum.photos/seed/hikari-camu-camu/600/750" alt="Camu camu berry powder">
+          </div>
+          <span class="card-label">— Antioxidant</span>
+          <h3 class="card-title">Camu Camu</h3>
+          <p class="card-latin">Myrciaria dubia, freeze-dried</p>
+          <p class="card-body">A small Amazonian berry — the densest natural source of vitamin C on earth. Freeze-dried within 48 hours of harvest to preserve the anthocyanins that pair with collagen for skin synthesis.</p>
+          <div class="card-foot">
+            <span class="origin">Iquitos, PE ↗</span>
+            <span class="dose">300 mg</span>
+          </div>
+        </article>
+
+        <article class="formula-card" data-hover>
+          <span class="card-num">07</span>
+          <div class="card-img">
+            <img src="https://picsum.photos/seed/hikari-water-pure/600/750" alt="Pure mineral water pour">
+          </div>
+          <span class="card-label">— Solvent</span>
+          <h3 class="card-title">Volcanic Mineral Water</h3>
+          <p class="card-latin">Filtered through Shirasu tuff</p>
+          <p class="card-body">Drawn from a 90m well in Kagoshima, filtered naturally through Shirasu volcanic tuff. A soft mineral profile — 32ppm calcium, 8ppm magnesium — that pulls cleanly without bitterness.</p>
+          <div class="card-foot">
+            <span class="origin">Kagoshima, JP ↗</span>
+            <span class="dose">220 ml</span>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </div>
+
+  <div class="pin-progress-wrap">
+    <div class="pin-progress-label">→ Scroll Progress</div>
+    <div class="pin-progress"><div class="bar" id="pin-bar"></div></div>
+    <div class="pin-instructions">
+      <span class="arrow-h">→</span>
+      <span>Scroll to walk the shelf</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RITUAL ============ -->
+<section class="ritual" id="ritual">
+  <div class="ritual-head">
+    <span class="section-num">— 04 / Ritual</span>
+    <h2 class="serif">Four minutes, <em>four steps</em>,<br>every morning.</h2>
+    <p>The Hikari ritual is engineered for slowness. Four minutes from kettle to cup — enough time to set an intention, not so long that you skip it. Here's how we make it.</p>
+  </div>
+
+  <div class="ritual-steps">
+
+    <div class="ritual-step">
+      <span class="step-num">— Step 01</span>
+      <h3 class="step-title">Heat water to <em>92°</em>.</h3>
+      <div class="step-body">
+        Bring filtered water to a rolling boil, then rest for ninety seconds until it lands at 92°C. Too hot and you'll burn the matcha. Too cool and the collagen won't dissolve. A kitchen thermometer is worth the ten dollars.
+        <div class="detail">↗ 92°C · 220 ml · 90-second rest</div>
+      </div>
+    </div>
+
+    <div class="ritual-step">
+      <span class="step-num">— Step 02</span>
+      <h3 class="step-title">Measure <em>24 grams</em> of First Batch.</h3>
+      <div class="step-body">
+        Two level scoops. The tin ships with a 12g scoop — the dose is calibrated for a 220ml cup. Don't eyeball it. The functional compounds are dosed to the gram, and so is the caffeine.
+        <div class="detail">↗ 24g · 2 scoops · 92mg caffeine</div>
+      </div>
+    </div>
+
+    <div class="ritual-step">
+      <span class="step-num">— Step 03</span>
+      <h3 class="step-title">Whisk in <em>slow circles</em>.</h3>
+      <div class="step-body">
+        Pour the water in two stages — first 60ml to bloom, whisk in slow figure-eights for fifteen seconds, then the remaining 160ml in a steady stream. A bamboo chasen is traditional; a milk frother works fine. Avoid vigorous beating — it denatures the collagen.
+        <div class="detail">↗ 60ml bloom · 15s whisk · 160ml pour</div>
+      </div>
+    </div>
+
+    <div class="ritual-step">
+      <span class="step-num">— Step 04</span>
+      <h3 class="step-title">Wait four minutes. <em>Then drink.</em></h3>
+      <div class="step-body">
+        Let the cup rest. The L-theanine needs four minutes to fully bind with the caffeine — this is the difference between a focused morning and a jittery one. Use the time. Look out a window. Set an intention. Then drink slowly, over the next twenty minutes.
+        <div class="detail">↗ 4-minute rest · 20-minute drink · 4-hour plateau</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============ PRODUCTS ============ -->
+<section class="products" id="products">
+  <div class="container">
+    <div class="products-head">
+      <div>
+        <span class="section-num">— 05 / Shop</span>
+        <h2 class="serif">Three tins,<br>three <em>frequencies</em>.</h2>
+      </div>
+      <div class="right">
+        <p>Each tin holds 20 servings — a four-week morning practice. Subscribers save 15% and receive the next batch before it ships to retail.</p>
+      </div>
+    </div>
+
+    <div class="products-grid">
+
+      <article class="product-card" data-hover>
+        <div class="product-img">
+          <span class="product-tag">Best Seller</span>
+          <img src="https://picsum.photos/seed/hikari-tin-first-batch/600/750" alt="First Batch tin">
+        </div>
+        <div class="product-meta">
+          <span class="label">— No. 001</span>
+          <span class="price">$48</span>
+        </div>
+        <h3 class="product-name">First <em>Batch</em></h3>
+        <p class="product-desc">The original formula. Single-origin Kyoto bean, ceremonial matcha, full compound stack. For focused mornings and inner radiance.</p>
+        <div class="product-foot">
+          <div class="product-qty">
+            <button class="qty-dec" aria-label="Decrease">−</button>
+            <span class="val">1</span>
+            <button class="qty-inc" aria-label="Increase">+</button>
+          </div>
+          <button class="product-add" data-hover>
+            <span>Add</span>
+            <span>→</span>
+          </button>
+        </div>
+      </article>
+
+      <article class="product-card" data-hover>
+        <div class="product-img">
+          <span class="product-tag">New</span>
+          <img src="https://picsum.photos/seed/hikari-tin-morning-reserve/600/750" alt="Morning Reserve tin">
+        </div>
+        <div class="product-meta">
+          <span class="label">— No. 002</span>
+          <span class="price">$54</span>
+        </div>
+        <h3 class="product-name">Morning <em>Reserve</em></h3>
+        <p class="product-desc">Aged four months in cedar. Deeper fermentation, lower acidity, double the lion's mane. For long days that demand a longer tail.</p>
+        <div class="product-foot">
+          <div class="product-qty">
+            <button class="qty-dec" aria-label="Decrease">−</button>
+            <span class="val">1</span>
+            <button class="qty-inc" aria-label="Increase">+</button>
+          </div>
+          <button class="product-add" data-hover>
+            <span>Add</span>
+            <span>→</span>
+          </button>
+        </div>
+      </article>
+
+      <article class="product-card" data-hover>
+        <div class="product-img">
+          <span class="product-tag">Decaf</span>
+          <img src="https://picsum.photos/seed/hikari-tin-evening-calm/600/750" alt="Evening Calm tin">
+        </div>
+        <div class="product-meta">
+          <span class="label">— No. 003</span>
+          <span class="price">$48</span>
+        </div>
+        <h3 class="product-name">Evening <em>Calm</em></h3>
+        <p class="product-desc">Swiss-water decaffeinated. Replaces caffeine with reishi and ashwagandha. For the late cup that won't steal your sleep.</p>
+        <div class="product-foot">
+          <div class="product-qty">
+            <button class="qty-dec" aria-label="Decrease">−</button>
+            <span class="val">1</span>
+            <button class="qty-inc" aria-label="Increase">+</button>
+          </div>
+          <button class="product-add" data-hover>
+            <span>Add</span>
+            <span>→</span>
+          </button>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIAL ============ -->
+<section class="testimonial">
+  <blockquote>
+    <div class="mark">"</div>
+    <p>I've replaced three supplements and my afternoon coffee with one tin. The <em>clarity</em> is different — less a spike, more a long, flat plateau. My skin texturally changed over six weeks. I'm not going back.</p>
+    <cite>
+      <span class="name">— Mira Tanaka</span>
+      <span class="role">Creative Director, Subscriber since 2023</span>
+    </cite>
+  </blockquote>
+</section>
+
+<!-- ============ NEWSLETTER ============ -->
+<section class="newsletter">
+  <div class="newsletter-grid">
+    <div>
+      <span class="section-num">— 06 / Subscribe</span>
+      <h2 class="serif">A letter, every <em>first Sunday</em>.</h2>
+      <p>Slow notes from the founder — new batches, ritual refinements, the occasional farm visit. No discounts, no urgency. Just a quiet letter, twelve times a year.</p>
+    </div>
+    <form class="newsletter-form" id="newsletter-form">
+      <div class="input-row">
+        <input type="email" placeholder="your@email.com" required data-hover>
+        <button type="submit" data-hover>
+          <span>Subscribe</span>
+          <span>→</span>
+        </button>
+      </div>
+      <div class="form-note">↗ Twelve letters a year · Unsubscribe in one click</div>
+      <div class="newsletter-success" id="newsletter-success">Thank you. Your first letter arrives Sunday.</div>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="logo">HIKARI<sup style="font-family: var(--font-mono); font-size: 0.5rem; letter-spacing: 0.2em; color: var(--gold); margin-left: 0.4rem;">FB</sup></div>
+      <p>Pressed slowly in Kyoto and Brooklyn. Twenty-four grams of intention, every morning. Made for radiance, engineered for calm.</p>
+    </div>
+    <div class="footer-col">
+      <h4>Shop</h4>
+      <ul>
+        <li><a href="#" data-hover>First Batch</a></li>
+        <li><a href="#" data-hover>Morning Reserve</a></li>
+        <li><a href="#" data-hover>Evening Calm</a></li>
+        <li><a href="#" data-hover>Gift Subscription</a></li>
+        <li><a href="#" data-hover>Wholesale</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Learn</h4>
+      <ul>
+        <li><a href="#" data-hover>The Formula</a></li>
+        <li><a href="#" data-hover>The Ritual</a></li>
+        <li><a href="#" data-hover>Our Farms</a></li>
+        <li><a href="#" data-hover>Lab Reports</a></li>
+        <li><a href="#" data-hover>Journal</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Studio</h4>
+      <ul>
+        <li><a href="#" data-hover>About Hikari</a></li>
+        <li><a href="#" data-hover>Contact</a></li>
+        <li><a href="#" data-hover>Press</a></li>
+        <li><a href="#" data-hover>Careers</a></li>
+        <li><a href="#" data-hover>Instagram</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 Hikari Coffee Co. · Kyoto ↔ Brooklyn</span>
+    <span>Site by Studio Mori · Pressed with care</span>
+  </div>
+</footer>
+
+<!-- ============ CART DRAWER ============ -->
+<div class="cart-overlay" id="cart-overlay"></div>
+<aside class="cart-drawer" id="cart-drawer">
+  <div class="cart-head">
+    <h3 class="serif">Your Cart</h3>
+    <button class="close" id="cart-close" data-hover>Close ×</button>
+  </div>
+  <div class="cart-body" id="cart-body">
+    <div class="cart-empty">
+      <span class="label">— Empty</span>
+      <p>Your cart is waiting for its first tin.</p>
+    </div>
+  </div>
+  <div class="cart-foot" id="cart-foot" style="display: none;">
+    <div class="cart-row"><span class="k">Subtotal</span><span id="cart-subtotal">$0</span></div>
+    <div class="cart-row"><span class="k">Shipping</span><span>Calculated at checkout</span></div>
+    <div class="cart-row total"><span>Total</span><span id="cart-total">$0</span></div>
+    <button class="cart-checkout" data-hover>
+      <span>Proceed to Checkout</span>
+      <span>→</span>
+    </button>
+  </div>
+</aside>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="back-to-top" data-hover aria-label="Back to top">↑</button>
+
+<!-- ============ SCRIPTS ============ -->
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.3.13/dist/lenis.min.js"></script>
+
+<script src="script.js"></script>
+
+</body>
+</html>
