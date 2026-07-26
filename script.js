@@ -439,12 +439,67 @@
     const form = document.getElementById('waitlist-form');
     const email = document.getElementById('waitlist-email');
     const success = document.getElementById('waitlist-success');
-    form.addEventListener('submit', (event) => {
+    const note = document.getElementById('waitlist-note');
+
+    form.addEventListener('submit', async (event) => {
       event.preventDefault();
-      if (!email.value || !email.checkValidity()) return;
-      success.classList.add('is-shown');
-      email.value = '';
-      setTimeout(() => success.classList.remove('is-shown'), 5000);
+
+      const emailValue = email.value.trim();
+      if (!emailValue || !email.checkValidity()) return;
+
+      // Disable form while submitting
+      const button = form.querySelector('button[type="submit"]');
+      button.disabled = true;
+      button.textContent = 'Sending…';
+
+      try {
+        const response = await fetch('/api/waitlist', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: emailValue }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          success.textContent = data.message || 'You are on the list. We will write when the first pour is ready.';
+          success.classList.add('is-shown');
+          email.value = '';
+          setTimeout(() => success.classList.remove('is-shown'), 6000);
+        } else if (response.status === 409) {
+          // Duplicate — friendly message
+          success.textContent = data.detail || 'You are already on the waitlist!';
+          success.classList.add('is-shown');
+          setTimeout(() => success.classList.remove('is-shown'), 6000);
+        } else {
+          // Server error
+          note.textContent = data.detail || 'Something went wrong. Please try again.';
+          note.style.color = 'var(--espresso)';
+          setTimeout(() => {
+            note.textContent = '';
+            note.style.color = '';
+          }, 5000);
+        }
+      } catch (error) {
+        note.textContent = 'Unable to reach the server. Please try again later.';
+        note.style.color = 'var(--espresso)';
+        setTimeout(() => {
+          note.textContent = '';
+          note.style.color = '';
+        }, 5000);
+      } finally {
+        button.disabled = false;
+        button.innerHTML = '<span id="waitlist-button"></span><span>→</span>';
+        // Re-populate the button text from data since we overwrote it
+        (async () => {
+          try {
+            const resp = await fetch('data.json');
+            const d = await resp.json();
+            const btn = document.querySelector('#waitlist-button');
+            if (btn) btn.textContent = d.waitlist.button;
+          } catch (_) {}
+        })();
+      }
     });
   }
 
