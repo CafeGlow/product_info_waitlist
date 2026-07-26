@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "JAGAVE — Pre-launch ritual for inner radiance",
+    "title": "JAGAVE — Coffee, reimagined for everyday radiance",
     "brand": "JAGAVE",
     "mark": "JG",
     "waitlistLabel": "Join the Waitlist",
@@ -12,251 +12,251 @@
     ]
   },
   "hero": {
-    "eyebrow": ["Pre-launch · No. 001", "Kyoto ↔ Brooklyn"],
+    "eyebrow": ["Pre-launch · Formula No. 001", "Coffee + purposeful nutrition"],
     "title": {
-      "leading": "Your morning ritual,",
+      "leading": "Your morning coffee,",
       "emphasis": "reimagined",
-      "trailing": "for inner radiance."
+      "trailing": "for everyday radiance."
     },
-    "subheadline": "A small-batch coffee ritual pressed against a quiet library of functional compounds — marine collagen, ceremonial matcha, lion's mane, and L-theanine. Less jitter. More glow. Twenty-four grams of intention, every cup.",
+    "subheadline": "Freeze-dried Arabica coffee blended with vegan collagen peptides and a considered mix of skin-supportive nutrients — all in one convenient 10 g sachet.",
     "imageUrl": "https://picsum.photos/seed/jagave-morning-pour/800/1000",
-    "imageAlt": "A slow morning coffee ritual in soft ivory ceramic",
+    "imageAlt": "A warm cup of Jagave coffee in a quiet morning setting",
     "frameTag": "Formula Study · No. 001",
-    "frameNote": "↗ 24g ritual",
-    "sideText": "Slow pressed · 18-hour rest · Stone-ground",
+    "frameNote": "↗ 10 g sachet",
+    "sideText": "Instant · Plant-based · Made for daily use",
     "ctas": [
       { "label": "Join the Waitlist", "href": "#waitlist" },
       { "label": "Discover the Formula", "href": "#formula" }
     ],
     "meta": [
-      { "label": "Caffeine", "value": "92 mg" },
-      { "label": "L-Theanine", "value": "200 mg" },
-      { "label": "Collagen", "value": "5 g" },
-      { "label": "Release", "value": "Autumn 2026" }
+      { "label": "Coffee", "value": "Arabica" },
+      { "label": "Vegan Peptides", "value": "2.8 g" },
+      { "label": "Glutathione", "value": "500 mg" },
+      { "label": "Format", "value": "10 g sachet" }
     ]
   },
   "marquee": [
-    "Single Origin",
-    "Ceremonial Matcha",
-    "L-Theanine",
-    "Marine Collagen",
-    "Lion's Mane",
-    "Camu Camu",
-    "Slow Pressed"
+    "Freeze-Dried Arabica",
+    "Vegan Collagen Peptides",
+    "Liposomal Glutathione",
+    "Vitamin C",
+    "Rice Ceramosides",
+    "Hyaluronic Acid",
+    "Astaxanthin"
   ],
   "manifesto": {
     "sectionNum": "— 01 / Manifesto",
     "label": "Our Intention",
-    "title": "A cup of coffee should give <em>more</em> than it takes.",
-    "text": "We believe a cup of coffee should give more than it takes. That mornings deserve a slower ritual. That clarity should not cost you calm. So we pressed twenty grams of single-origin beans against a quiet library of functional compounds — L-theanine for focus, collagen for skin, lion's mane for nerve, ceremonial matcha for grace. The result is not a beverage. It is a daily practice, pressed slowly into twenty-four grams.",
-    "signature": "\"Radiance is not a finish. It is a frequency.\"",
-    "founder": "— Yuki Mori, Founder"
+    "title": "A cup of coffee can be part of a more <em>considered</em> morning.",
+    "text": "Jagave brings together the familiarity of coffee and a purposeful blend of nutrients selected to complement a daily beauty and wellness routine. It is not a medicine or a shortcut. It is simply an easy, enjoyable ritual designed to fit into the morning you already have.",
+    "signature": "\"Radiance is built through the rituals you return to.\"",
+    "founder": "— Jagave"
   },
   "principles": {
     "sectionNum": "— 02 / Principles",
-    "title": "Three rules, <em>pressed</em><br>into every batch.",
-    "description": "We treat coffee like skincare — a daily ritual where origin, compound, and patience each carry equal weight. There are no shortcuts. No fillers. No marketing dust. Just three rules we refuse to break.",
+    "title": "Three ideas,<br><em>blended</em> into every sachet.",
+    "description": "The formulation is being developed around daily usability: a satisfying coffee experience, purposeful ingredients, and a format simple enough to become a habit.",
     "items": [
       {
         "number": "— Principle 01",
-        "title": "Single Origin,<br>Traceable to the Farm.",
-        "body": "We source from one farm per batch — currently Kyoto Prefecture's Uji highlands, 1,200m elevation, harvested November 2024. Every batch carries the lot number, the farmer's name, and the altitude. If we can't tell you who grew it, we won't make it.",
+        "title": "Coffee First,<br>Without Compromise.",
+        "body": "Freeze-dried Arabica coffee forms the heart of each sachet, supported by a plant-based creamer for a smooth, rounded cup. The goal is a familiar coffee ritual with no unnecessary preparation.",
         "specs": [
-          { "label": "Origin", "value": "Uji, Kyoto" },
-          { "label": "Altitude", "value": "1,200 m" },
-          { "label": "Harvest", "value": "Nov 2024" },
-          { "label": "Process", "value": "Washed, sun-dried" }
+          { "label": "Coffee", "value": "Freeze-dried Arabica" },
+          { "label": "Classic", "value": "5.0 g coffee" },
+          { "label": "Hazelnut", "value": "4.5 g coffee" },
+          { "label": "Serving", "value": "1 sachet" }
         ]
       },
       {
         "number": "— Principle 02",
-        "title": "Functional Compounds,<br>Clinically Dosed.",
-        "body": "Every compound is dosed at clinically-studied levels — not pinch-dusted for label appeal. 200mg L-theanine. 5g hydrolyzed marine collagen. 500mg dual-extracted lion's mane. 2g ceremonial-grade matcha. No proprietary blends. No hidden percentages.",
+        "title": "Purposeful Ingredients,<br>Clearly Presented.",
+        "body": "The blend combines vegan collagen peptides with glutathione, vitamin C, rice ceramosides, sodium hyaluronate, astaxanthin, vitamin E, zinc, biotin and other carefully selected nutrients. Exact formulation remains subject to final manufacturing and regulatory review.",
         "specs": [
-          { "label": "L-Theanine", "value": "200 mg" },
-          { "label": "Collagen", "value": "5,000 mg" },
-          { "label": "Lion's Mane", "value": "500 mg" },
-          { "label": "Matcha", "value": "2,000 mg" }
+          { "label": "Vegan Peptides", "value": "2,800 mg" },
+          { "label": "Glutathione", "value": "500 mg" },
+          { "label": "Vitamin C", "value": "65 mg" },
+          { "label": "Zinc", "value": "7 mg" }
         ]
       },
       {
         "number": "— Principle 03",
-        "title": "Cold Brewed Slowly,<br>Over Eighteen Hours.",
-        "body": "We steep the grounds for eighteen hours at 4°C, then reduce the extract at low pressure to preserve the L-theanine and collagen. The result is a concentrate with 67% less acidity than hot-brewed coffee, naturally sweeter, with the functional compounds fully intact.",
+        "title": "Made to Mix,<br>Made to Repeat.",
+        "body": "The sachet is being refined for smooth mouthfeel, reliable dispersal in water or milk, and a clean finish. Ingredient forms and flavour balance may be adjusted before launch to improve the drinking experience.",
         "specs": [
-          { "label": "Steep", "value": "18 hours" },
-          { "label": "Temp", "value": "4°C" },
-          { "label": "Acidity", "value": "-67% vs. hot" },
-          { "label": "Shelf", "value": "14 days cold" }
+          { "label": "Format", "value": "Instant powder" },
+          { "label": "Sachet", "value": "10 g" },
+          { "label": "Options", "value": "Classic / Hazelnut" },
+          { "label": "Base", "value": "Plant-based" }
         ]
       }
     ]
   },
   "formula": {
     "sectionNum": "— 03 / Formula",
-    "title": "The seven compounds<br>behind your <em>radiance</em>.",
-    "description": "Each ingredient earns its place through three filters: clinically studied, traceable to source, and perceptible in the cup. Scroll sideways to walk the shelf.",
-    "meta": "→ Seven compounds · 24g ritual · Formula study",
+    "title": "Seven highlights<br>from the <em>formula</em>.",
+    "description": "The full blend contains additional supporting ingredients. These seven highlights have been selected for the website to keep the story clear and the layout focused.",
+    "meta": "→ Seven ingredient highlights · 10 g sachet · Pre-launch formula",
     "progressLabel": "→ Formula Progress",
-    "instructions": "Scroll to explore the shelf"
+    "instructions": "Scroll to explore the blend"
   },
   "ingredients": [
     {
-      "name": "Single-Origin Bean",
-      "cosmeticBenefit": "Base Compound",
-      "description": "Washed and sun-dried over 14 days at 1,200m elevation. Notes of white tea, citrus peel, and a long mineral finish. The structural base that gives the ritual its gentle caffeine curve.",
-      "botanicalName": "Coffea arabica, var. bourbon",
-      "origin": "Uji, Kyoto",
-      "dose": "12 g",
-      "imageUrl": "https://picsum.photos/seed/jagave-bean-kyoto/600/750",
-      "imageAlt": "Single-origin coffee cherries from Kyoto"
+      "name": "Freeze-Dried Arabica Coffee",
+      "cosmeticBenefit": "Coffee Base",
+      "description": "The familiar foundation of the ritual, selected in an instant format for convenience and a full coffee character. The classic sachet contains 5.0 g; the hazelnut version contains 4.5 g.",
+      "botanicalName": "Coffea arabica",
+      "origin": "Source to be confirmed",
+      "dose": "5.0 g / 4.5 g",
+      "imageUrl": "https://picsum.photos/seed/jagave-arabica/600/750",
+      "imageAlt": "Freeze-dried Arabica coffee granules"
     },
     {
-      "name": "Ceremonial Matcha",
-      "cosmeticBenefit": "Antioxidant",
-      "description": "First-flush leaves from a 200-year-old Uji tea garden, stone-ground to 5 microns. Adds a slow-release caffeine tail and vegetal sweetness that rounds the coffee's bitterness.",
-      "botanicalName": "Camellia sinensis, stone-ground",
-      "origin": "Uji, Kyoto",
-      "dose": "2 g",
-      "imageUrl": "https://picsum.photos/seed/jagave-matcha-uji/600/750",
-      "imageAlt": "Ceremonial matcha powder in a stone bowl"
+      "name": "Vegan Collagen Peptides",
+      "cosmeticBenefit": "Beauty Nutrition",
+      "description": "A plant-based, microencapsulated or hydrolysed collagen analogue included as one of the formula's central beauty-focused ingredients.",
+      "botanicalName": "Vegan hydrolysed peptide analogue",
+      "origin": "Supplier to be confirmed",
+      "dose": "2,800 mg",
+      "imageUrl": "https://picsum.photos/seed/jagave-vegan-peptides/600/750",
+      "imageAlt": "Fine vegan peptide powder"
     },
     {
-      "name": "L-Theanine",
-      "cosmeticBenefit": "Calm Focus",
-      "description": "A pure amino acid from green tea, fermented enzymatically rather than synthesized. Smooths the caffeine spike into a four-hour plateau — focus without the jitter, calm without the drowsiness.",
-      "botanicalName": "Sun-theanine, enzymatic",
-      "origin": "Yokohama, JP",
-      "dose": "200 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-theanine/600/750",
-      "imageAlt": "L-theanine crystalline powder"
-    },
-    {
-      "name": "Marine Collagen",
-      "cosmeticBenefit": "Skin Support",
-      "description": "Wild-caught North Atlantic cod, hydrolyzed to a 1,000-dalton peptide for 95% absorption. Type I collagen — the kind your skin actually uses. Dissolves clear, tastes of nothing.",
-      "botanicalName": "Hydrolyzed type I, wild-caught",
-      "origin": "Bergen, NO",
-      "dose": "5,000 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-collagen-marine/600/750",
-      "imageAlt": "Marine collagen peptide powder"
-    },
-    {
-      "name": "Lion's Mane",
-      "cosmeticBenefit": "Nerve Support",
-      "description": "Fruiting bodies only — no mycelium, no fillers. Dual-extracted in water and alcohol to capture the compounds studied for nerve growth factor stimulation.",
-      "botanicalName": "Hericium erinaceus, dual-extracted",
-      "origin": "Hokkaido, JP",
+      "name": "Liposomal Glutathione",
+      "cosmeticBenefit": "Antioxidant Support",
+      "description": "A liposomal form of glutathione selected for the formulation and presented as part of the product's broader antioxidant-focused nutrient blend.",
+      "botanicalName": "Liposomal glutathione",
+      "origin": "Supplier to be confirmed",
       "dose": "500 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-lions-mane/600/750",
-      "imageAlt": "Lion's mane mushroom extract"
+      "imageUrl": "https://picsum.photos/seed/jagave-glutathione/600/750",
+      "imageAlt": "Liposomal glutathione ingredient powder"
     },
     {
-      "name": "Camu Camu",
-      "cosmeticBenefit": "Vitamin C",
-      "description": "A small Amazonian berry, freeze-dried within 48 hours of harvest to preserve the anthocyanins that pair with collagen for skin synthesis and a bright, clean finish.",
-      "botanicalName": "Myrciaria dubia, freeze-dried",
-      "origin": "Iquitos, PE",
-      "dose": "300 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-camu-camu/600/750",
-      "imageAlt": "Camu camu berries and powder"
+      "name": "Vitamin C",
+      "cosmeticBenefit": "Nutrient Support",
+      "description": "Microencapsulated vitamin C included to complement the wider formula and support a convenient daily nutrient ritual.",
+      "botanicalName": "Microencapsulated vitamin C",
+      "origin": "Supplier to be confirmed",
+      "dose": "65 mg",
+      "imageUrl": "https://picsum.photos/seed/jagave-vitamin-c/600/750",
+      "imageAlt": "Microencapsulated vitamin C powder"
     },
     {
-      "name": "Volcanic Mineral Water",
-      "cosmeticBenefit": "Mineral Balance",
-      "description": "Drawn from a 90m well in Kagoshima, filtered naturally through Shirasu volcanic tuff. A soft mineral profile that pulls cleanly without bitterness.",
-      "botanicalName": "Filtered through Shirasu tuff",
-      "origin": "Kagoshima, JP",
-      "dose": "220 ml",
-      "imageUrl": "https://picsum.photos/seed/jagave-water-pure/600/750",
-      "imageAlt": "Pure mineral water pour"
+      "name": "Rice Ceramosides",
+      "cosmeticBenefit": "Skin-Focused Lipids",
+      "description": "Rice-derived ceramosides included as a compact, skin-focused component of the blend.",
+      "botanicalName": "Rice-derived ceramosides",
+      "origin": "Supplier to be confirmed",
+      "dose": "40 mg",
+      "imageUrl": "https://picsum.photos/seed/jagave-rice-ceramosides/600/750",
+      "imageAlt": "Rice-derived ceramoside ingredient"
+    },
+    {
+      "name": "Sodium Hyaluronate",
+      "cosmeticBenefit": "Hydration-Focused",
+      "description": "A low-molecular-weight form of sodium hyaluronate selected for the formula's hydration-focused ingredient story.",
+      "botanicalName": "Low-molecular-weight sodium hyaluronate",
+      "origin": "Supplier to be confirmed",
+      "dose": "40 mg",
+      "imageUrl": "https://picsum.photos/seed/jagave-hyaluronate/600/750",
+      "imageAlt": "Sodium hyaluronate powder"
+    },
+    {
+      "name": "Astaxanthin",
+      "cosmeticBenefit": "Antioxidant Nutrient",
+      "description": "A naturally associated antioxidant nutrient used in a small but purposeful amount within the broader blend.",
+      "botanicalName": "Astaxanthin",
+      "origin": "Source to be confirmed",
+      "dose": "8 mg",
+      "imageUrl": "https://picsum.photos/seed/jagave-astaxanthin/600/750",
+      "imageAlt": "Astaxanthin ingredient powder"
     }
   ],
   "ritualMeta": {
     "sectionNum": "— 04 / Ritual",
-    "title": "Four minutes, <em>four steps</em>,<br>every morning.",
-    "description": "The Jagave ritual is engineered for slowness. Four minutes from kettle to cup — enough time to set an intention, not so long that you skip it. Here's how we make it."
+    "title": "One sachet,<br><em>one simple ritual</em>.",
+    "description": "Jagave is designed to fit into an ordinary morning without specialist equipment or a complicated routine."
   },
   "ritual": [
     {
-      "title": "Heat water to <em>92°</em>.",
-      "description": "Bring filtered water to a rolling boil, then rest for ninety seconds until it lands at 92°C. Too hot and you'll burn the matcha. Too cool and the collagen won't dissolve. A kitchen thermometer is worth the ten dollars.",
-      "detail": "92°C · 220 ml · 90-second rest"
+      "title": "Empty one <em>sachet</em>.",
+      "description": "Add one 10 g sachet to your cup. Use the classic coffee formula or the coffee + hazelnut variation.",
+      "detail": "1 sachet · 10 g · Classic or hazelnut"
     },
     {
-      "title": "Measure <em>24 grams</em> of Jagave.",
-      "description": "Two level scoops. The dose is calibrated for a 220ml cup. Don't eyeball it. The functional compounds are dosed to the gram, and so is the caffeine.",
-      "detail": "24g · 2 scoops · 92mg caffeine"
+      "title": "Add hot water or <em>milk</em>.",
+      "description": "Pour in your preferred amount of hot water or milk. Final preparation guidance will be confirmed after taste and solubility testing.",
+      "detail": "Water or milk · Serving size to be finalised"
     },
     {
-      "title": "Whisk in <em>slow circles</em>.",
-      "description": "Pour the water in two stages — first 60ml to bloom, whisk in slow figure-eights for fifteen seconds, then the remaining 160ml in a steady stream. A bamboo chasen is traditional; a milk frother works fine.",
-      "detail": "60ml bloom · 15s whisk · 160ml pour"
+      "title": "Stir until <em>smooth</em>.",
+      "description": "Stir thoroughly or use a small frother for a creamier finish. The formulation is being optimised for easy mixing and minimal residue.",
+      "detail": "Stir or froth · Serve hot"
     },
     {
-      "title": "Wait four minutes. <em>Then drink.</em>",
-      "description": "Let the cup rest. Use the time. Look out a window. Set an intention. Then drink slowly, over the next twenty minutes.",
-      "detail": "4-minute rest · 20-minute drink · 4-hour plateau"
+      "title": "Make it part of your <em>morning</em>.",
+      "description": "Enjoy it as a consistent daily ritual alongside a balanced diet and your usual skincare routine.",
+      "detail": "Daily ritual · Coffee first · No medical claims"
     }
   ],
   "preview": {
     "sectionNum": "— 05 / Preview",
-    "title": "A ritual in <em>three movements</em>.",
-    "description": "Jagave is still in the studio. Explore the first release through its origin, its formula, and the quiet practice it is being made to support.",
+    "title": "A ritual in <em>three parts</em>.",
+    "description": "Jagave is still in development. Explore the coffee, the formula and the simple daily practice the product is being designed around.",
     "cards": [
       {
-        "tag": "Origin",
-        "label": "— The Source",
-        "name": "Kyoto <em>Morning</em>",
-        "description": "A traceable single-origin base with the clean, mineral profile that anchors the entire formula.",
-        "cta": "Explore the Origin",
+        "tag": "Coffee",
+        "label": "— The Base",
+        "name": "Arabica <em>Morning</em>",
+        "description": "Freeze-dried Arabica and a plant-based creamer create the familiar, comforting base of the sachet.",
+        "cta": "Explore the Coffee",
         "imageUrl": "https://picsum.photos/seed/jagave-origin/600/750",
-        "imageAlt": "Quiet Kyoto coffee farm landscape"
+        "imageAlt": "Arabica coffee in a minimal morning setting"
       },
       {
         "tag": "Formula",
-        "label": "— The Compounds",
-        "name": "Inner <em>Radiance</em>",
-        "description": "Seven purposeful compounds chosen for the conversation between focus, calm, and skin-supportive nourishment.",
+        "label": "— The Blend",
+        "name": "Daily <em>Radiance</em>",
+        "description": "A considered blend of vegan peptides, antioxidants, vitamins and skin-focused nutrients.",
         "cta": "Discover the Formula",
         "imageUrl": "https://picsum.photos/seed/jagave-formula/600/750",
-        "imageAlt": "Botanical ingredients arranged for a formula study"
+        "imageAlt": "Powdered functional ingredients arranged for a formula study"
       },
       {
-        "tag": "Practice",
-        "label": "— The Ritual",
-        "name": "Four <em>Minutes</em>",
-        "description": "A measured morning sequence designed to make space for clarity before the day begins asking for it.",
+        "tag": "Ritual",
+        "label": "— The Routine",
+        "name": "One <em>Sachet</em>",
+        "description": "A simple instant format made to work with hot water or milk and the morning routine you already follow.",
         "cta": "Explore the Ritual",
         "imageUrl": "https://picsum.photos/seed/jagave-ritual/600/750",
-        "imageAlt": "Minimal morning ritual beside a ceramic cup"
+        "imageAlt": "A single coffee sachet beside a ceramic cup"
       }
     ]
   },
   "testimonial": {
-    "quote": "The clarity is different — less a spike, more a long, flat plateau. My skin texturally changed over six weeks. I'm not going back.",
-    "name": "— Mira Tanaka",
-    "role": "Creative Director, early formula tester"
+    "quote": "Jagave is currently in formulation and taste testing. Testimonials will be added only after structured product trials and appropriate consent.",
+    "name": "— Pre-launch note",
+    "role": "Formula development in progress"
   },
   "waitlist": {
     "sectionNum": "— 06 / First Pour",
     "title": "Be there for the <em>first pour</em>.",
-    "description": "Jagave is opening its first batch this autumn. Leave your email for quiet notes from the studio, release timing, and an invitation when the ritual is ready.",
+    "description": "Jagave is preparing its first release. Leave your email for formulation notes, launch updates and an invitation when the product is ready.",
     "placeholder": "your@email.com",
     "button": "Join the Waitlist",
-    "note": "↗ Pre-launch notes · No purchase required",
+    "note": "↗ Pre-launch updates · No purchase required",
     "success": "You are on the list. We will write when the first pour is ready."
   },
   "footer": {
-    "description": "Pressed slowly in Kyoto and Brooklyn. Twenty-four grams of intention, every morning. Made for radiance, engineered for calm.",
+    "description": "Coffee, reimagined as a simple daily beauty and wellness ritual. One 10 g sachet, made for mornings.",
     "exploreTitle": "Explore",
     "studioTitle": "Studio",
     "connectTitle": "Connect",
     "explore": [
       { "label": "The Formula", "href": "#formula" },
       { "label": "The Ritual", "href": "#ritual" },
-      { "label": "Our Farms", "href": "#about" },
-      { "label": "Lab Notes", "href": "#formula" },
+      { "label": "Our Story", "href": "#about" },
+      { "label": "Formula Notes", "href": "#formula" },
       { "label": "Journal", "href": "#waitlist" }
     ],
     "studio": [
@@ -271,9 +271,9 @@
       { "label": "Founder Notes", "href": "#about" },
       { "label": "Ingredient Index", "href": "#formula" },
       { "label": "Ritual Guide", "href": "#ritual" },
-      { "label": "Kyoto ↔ Brooklyn", "href": "#hero" }
+      { "label": "Pre-launch Studio", "href": "#hero" }
     ],
-    "copyright": "© 2026 Jagave Studio · Kyoto ↔ Brooklyn",
-    "credit": "Site by Studio Mori · Pressed with care"
+    "copyright": "© 2026 Jagave",
+    "credit": "Made with care"
   }
 }
