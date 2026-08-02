@@ -1051,6 +1051,7 @@
   /* ============ NEWSLETTER ============ */
   .newsletter {
     padding: 8rem 0;
+    scroll-margin-top: 60px;
     background: var(--espresso);
     color: var(--ivory);
   }

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Not found — JAGAVE</title>
+<meta name="description" content="The page you were looking for could not be found.">
+<meta name="theme-color" content="#FDFBF7">
+<link rel="canonical" href="https://jagave.com/">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<meta name="robots" content="noindex, nofollow">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;1,9..144,300;1,9..144,400&family=Inter:wght@300;400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .notfound {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    padding: 6rem 2rem;
+  }
+  .notfound-grid {
+    max-width: 720px;
+    text-align: center;
+  }
+  .notfound-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--gold-deep);
+    margin-bottom: 1.5rem;
+    display: block;
+  }
+  .notfound h1 {
+    font-family: var(--font-serif);
+    font-weight: 300;
+    font-size: clamp(3rem, 8vw, 6rem);
+    line-height: 1.02;
+    letter-spacing: -0.025em;
+    margin-bottom: 1.5rem;
+  }
+  .notfound h1 em { font-style: italic; color: var(--gold-deep); }
+  .notfound p {
+    font-family: var(--font-serif);
+    font-size: 1.25rem;
+    line-height: 1.5;
+    color: var(--espresso-75);
+    margin-bottom: 2.5rem;
+    max-width: 520px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .notfound-cta {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 1rem 1.75rem;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    border: 1px solid var(--espresso);
+    background: var(--espresso);
+    color: var(--ivory);
+    transition: background 0.4s var(--ease-quiet), color 0.4s var(--ease-quiet), border-color 0.4s var(--ease-quiet);
+  }
+  .notfound-cta:hover { background: var(--gold); color: var(--espresso); border-color: var(--gold); }
+  .notfound-cta .arrow { display: inline-block; transition: transform 0.4s var(--ease-quiet); }
+  .notfound-cta:hover .arrow { transform: translateX(4px); }
+</style>
+</head>
+<body>
+
+<main class="notfound">
+  <div class="notfound-grid">
+    <span class="notfound-eyebrow">— 404 / Not Found</span>
+    <h1>This page is still <em>brewing</em>.</h1>
+    <p>The link you followed doesn't lead anywhere on the JAGAVE site. The page may have moved, or it may never have existed.</p>
+    <a href="/" class="notfound-cta">Return home <span class="arrow">→</span></a>
+  </div>
+</main>
+
+</body>
+</html>
