@@ -246,6 +246,7 @@
         else target.scrollIntoView({ behavior: 'smooth', block: 'start' });
         mobileMenu.classList.remove('is-open');
         navBurger.classList.remove('is-open');
+        document.body.style.overflow = '';
       });
     });
 
@@ -267,8 +268,9 @@
     });
 
     navBurger.addEventListener('click', () => {
-      navBurger.classList.toggle('is-open');
-      mobileMenu.classList.toggle('is-open');
+      const isOpen = navBurger.classList.toggle('is-open');
+      mobileMenu.classList.toggle('is-open', isOpen);
+      document.body.style.overflow = isOpen ? 'hidden' : '';
     });
 
     initializeHeroAnimation(prefersReducedMotion);
