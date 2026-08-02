@@ -38,13 +38,25 @@
 .
 ├── server.py          # FastAPI app: starts uvicorn, mounts static files, defines /api/waitlist
 ├── requirements.txt   # Python dependencies (pip install -r requirements.txt)
-├── .env               # Environment variables (gitignored)
+├── .env.example       # Template for environment variables (copy to .env)
+├── .env               # Real env values (gitignored)
 ├── .gitignore
 ├── README.md          # This file
-├── index.html         # Single-page frontend
+├── LAUNCH_CHECKLIST.md# Pre-launch readiness checklist
+├── image-prompts.md   # Prompts for the 11 placeholder images
+│
+├── index.html         # Single-page frontend (home)
+├── privacy.html       # Privacy Policy
+├── terms.html         # Terms of Service
+├── 404.html           # Branded 404 page
 ├── style.css          # All styles
 ├── script.js          # All JS (GSAP animations + waitlist form submission)
-└── data.json          # All content data (site copy, hero, ingredients, etc.)
+├── data.json          # All content data (site copy, hero, ingredients, etc.)
+│
+├── favicon.svg        # Site favicon (linked from every page)
+├── robots.txt         # SEO crawl rules
+│
+└── images/            # Drop the 11 product / hero images here (see image-prompts.md)
 ```
 
 ---
@@ -112,17 +124,27 @@ Responses:
 
 ```sql
 CREATE TABLE IF NOT EXISTS waitlist (
-    id       SERIAL PRIMARY KEY,
-    email    VARCHAR(320) UNIQUE NOT NULL,
+    id         SERIAL PRIMARY KEY,
+    email      VARCHAR(320) UNIQUE NOT NULL,
+    source     VARCHAR(64),                   -- attribution: utm_source / ref / source from the form
     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 ```
+
+On startup, the server runs a lightweight in-place migration to ensure the `source` column exists:
+
+```sql
+ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS source VARCHAR(64);
+```
+
+This is safe to run on every boot (no-op if the column already exists). For larger future schema changes, switch to Alembic.
 
 ### Resend Email
 
 - Triggered immediately after a successful DB insert (fire-and-forget; doesn't block the HTTP response).
 - If `RESEND_API_KEY` is empty or unset, the email step is skipped quietly (logged).
-- `from` address uses Resend's test sender (`onboarding@resend.dev`) by default. Update to a verified domain when you have one.
+- The `from` address is built from `RESEND_FROM_NAME` and `RESEND_FROM_EMAIL` (defaults: `JAGAVE <onboarding@resend.dev>`). Replace these with a verified domain before launch.
+- The email includes a `List-Unsubscribe` header and a visible unsubscribe link to comply with CAN-SPAM and Gmail's sender requirements.
 
 ---
 
@@ -136,7 +158,9 @@ The frontend is a vanilla single-page app. All content lives in `data.json`. The
 
 ### Waitlist Form (`script.js` → `initializeWaitlistForm`)
 
-- On submit: POST to `/api/waitlist` as JSON.
+- On submit: POST to `/api/waitlist` as JSON: `{ email, source? }`.
+- The `source` field is read from URL params (`?utm_source=`, `?ref=`, or `?source=`) on page load and is stored alongside the email for attribution. It is silently truncated to 64 chars.
+- A required privacy consent checkbox must be ticked before submission; an unchecked box shows a non-blocking error in the form note.
 - On 200: Show success message from the response (replaces the placeholder from `data.json`).
 - On 409: Show "already on the waitlist" message.
 - On error: Show error in the form note area.
@@ -147,15 +171,15 @@ The frontend is a vanilla single-page app. All content lives in `data.json`. The
 ## Waitlist Pipeline
 
 ```
-User enters email → [frontend] POST /api/waitlist
-                         ↓
-                    [FastAPI] Validate email (Pydantic EmailStr)
-                         ↓
-                    [PostgreSQL] INSERT INTO waitlist (email, created_at)
-                         ↓ (on success)
-                    [Resend] Send welcome email (fire-and-forget)
-                         ↓
-                    Response → { message: "You are on the list..." }
+User enters email + consent → [frontend] POST /api/waitlist
+                                    ↓
+                              [FastAPI] Validate email (Pydantic EmailStr)
+                                    ↓
+                              [PostgreSQL] INSERT INTO waitlist (email, source, created_at)
+                                    ↓ (on success)
+                              [Resend] Send welcome email with List-Unsubscribe header
+                                    ↓
+                              Response → { message: "You are on the list..." }
 ```
 
 ---
@@ -170,15 +194,21 @@ User enters email → [frontend] POST /api/waitlist
 | `DB_USER` | `postgres` | ✅ | PostgreSQL user |
 | `DB_PASSWORD` | (empty) | ✅ | PostgreSQL password |
 | `RESEND_API_KEY` | (empty) | — | Resend API key. If empty, email is skipped gracefully. |
+| `RESEND_FROM_EMAIL` | `onboarding@resend.dev` | — | Sender email. Replace with a verified domain address before launch. |
+| `RESEND_FROM_NAME` | `JAGAVE` | — | Sender display name used in the `From` field. |
+| `PUBLIC_ORIGIN` | `http://localhost:8000` | ✅ in prod | Public site origin (no trailing slash). Used for CORS and the unsubscribe URL inside emails. |
 | `PORT` | `8000` | — | Server port (also accepts CLI arg: `python server.py 8080`) |
 
 ---
 
 ## Deployment Notes
 
-- **Database:** Ensure PostgreSQL is running and accessible. The server auto-creates the `waitlist` table on startup.
+- **Database:** Ensure PostgreSQL is running and accessible. The server auto-creates the `waitlist` table on startup and runs an idempotent `ADD COLUMN IF NOT EXISTS source` migration.
 - **Resend:** Set `RESEND_API_KEY` to a real API key (from [resend.com](https://resend.com)). The free tier allows 100 emails/day.
-- **Verified domain:** Replace `onboarding@resend.dev` with your verified domain in the `from` field of `send_welcome_email()`.
+- **Verified domain:** Before launch, verify your sending domain in Resend and update `RESEND_FROM_EMAIL` to an address on that domain. The default `onboarding@resend.dev` only delivers to your own Resend account.
+- **`PUBLIC_ORIGIN`:** Must be set to the deployed URL (e.g. `https://jagave.com`) so the CORS allowlist matches and the unsubscribe link inside emails points at the real site. No trailing slash.
+- **Images:** Drop the 11 product / hero photos into `images/` using the filenames in `image-prompts.md` (e.g. `images/hero-coffee-morning.jpg`, `images/ingredient-arabica.jpg`). `data.json` already references these local paths.
+- **Static assets:** `index.html`, `privacy.html`, `terms.html`, `404.html`, `favicon.svg`, `robots.txt`, `style.css`, `script.js`, and `data.json` are served by FastAPI's `StaticFiles` mount.
 - **Uvicorn production:** For production, consider using `gunicorn -k uvicorn.workers.UvicornWorker server:app` or running uvicorn directly with more workers.
 - The `.env` file is gitignored (already in `.gitignore`).
 
@@ -187,7 +217,9 @@ User enters email → [frontend] POST /api/waitlist
 ## Workflow & Conventions
 
 - **Branching:** `main` is the stable branch. Feature branches prefixed with `add/` or `fix/`.
-- **Content edits:** All text is in `data.json` — no need to touch HTML for copy changes.
+- **Content edits:** All text on the home page is in `data.json` — no need to touch HTML for copy changes.
+- **Legal pages:** `privacy.html` and `terms.html` are hand-edited. They are not data-driven. Review with counsel before launch.
 - **Adding deps:** Add to `requirements.txt` AND run `pip freeze | grep <pkg> >> requirements.txt` (but deduplicate).
 - **Linting:** No linter configured yet. Try to keep Python consistent with the style in `server.py` (PEP-8-ish, 4-space indent).
-- Always test the waitlist flow end-to-end: submit an email → check DB → check Resend dashboard.
+- **Schema changes:** For now, small additive changes go in the `startup()` migration block. Anything destructive (renames, type changes, drops) should move to Alembic.
+- Always test the waitlist flow end-to-end: submit an email → check DB → check Resend dashboard → click unsubscribe.

@@ -19,8 +19,8 @@
       "trailing": "for everyday radiance."
     },
     "subheadline": "Freeze-dried Arabica coffee blended with vegan collagen peptides and a considered mix of skin-supportive nutrients — all in one convenient 10 g sachet.",
-    "imageUrl": "https://picsum.photos/seed/jagave-morning-pour/800/1000",
-    "imageAlt": "A warm cup of Jagave coffee in a quiet morning setting",
+    "imageUrl": "jagave_images/Gemini_Generated_Image_9bwqc39bwqc39bwq.png",
+    "imageAlt": "Jagave coffee product image",
     "frameTag": "Formula Study · No. 001",
     "frameNote": "↗ 10 g sachet",
     "sideText": "Instant · Plant-based · Made for daily use",
@@ -108,7 +108,7 @@
       "botanicalName": "Coffea arabica",
       "origin": "Source to be confirmed",
       "dose": "5.0 g / 4.5 g",
-      "imageUrl": "https://picsum.photos/seed/jagave-arabica/600/750",
+      "imageUrl": "images/ingredient-arabica.jpg",
       "imageAlt": "Freeze-dried Arabica coffee granules"
     },
     {
@@ -118,7 +118,7 @@
       "botanicalName": "Vegan hydrolysed peptide analogue",
       "origin": "Supplier to be confirmed",
       "dose": "2,800 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-vegan-peptides/600/750",
+      "imageUrl": "images/ingredient-vegan-peptides.png",
       "imageAlt": "Fine vegan peptide powder"
     },
     {
@@ -128,7 +128,7 @@
       "botanicalName": "Liposomal glutathione",
       "origin": "Supplier to be confirmed",
       "dose": "500 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-glutathione/600/750",
+      "imageUrl": "images/ingredient-glutathione.png",
       "imageAlt": "Liposomal glutathione ingredient powder"
     },
     {
@@ -138,7 +138,7 @@
       "botanicalName": "Microencapsulated vitamin C",
       "origin": "Supplier to be confirmed",
       "dose": "65 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-vitamin-c/600/750",
+      "imageUrl": "images/ingredient-vitamin-c.png",
       "imageAlt": "Microencapsulated vitamin C powder"
     },
     {
@@ -148,7 +148,7 @@
       "botanicalName": "Rice-derived ceramosides",
       "origin": "Supplier to be confirmed",
       "dose": "40 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-rice-ceramosides/600/750",
+      "imageUrl": "images/ingredient-rice-ceramosides.png",
       "imageAlt": "Rice-derived ceramoside ingredient"
     },
     {
@@ -158,7 +158,7 @@
       "botanicalName": "Low-molecular-weight sodium hyaluronate",
       "origin": "Supplier to be confirmed",
       "dose": "40 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-hyaluronate/600/750",
+      "imageUrl": "images/ingredient-hyaluronate.png",
       "imageAlt": "Sodium hyaluronate powder"
     },
     {
@@ -168,7 +168,7 @@
       "botanicalName": "Astaxanthin",
       "origin": "Source to be confirmed",
       "dose": "8 mg",
-      "imageUrl": "https://picsum.photos/seed/jagave-astaxanthin/600/750",
+      "imageUrl": "images/ingredient-astaxanthin.png",
       "imageAlt": "Astaxanthin ingredient powder"
     }
   ],
@@ -210,7 +210,7 @@
         "name": "Arabica <em>Morning</em>",
         "description": "Freeze-dried Arabica and a plant-based creamer create the familiar, comforting base of the sachet.",
         "cta": "Explore the Coffee",
-        "imageUrl": "https://picsum.photos/seed/jagave-origin/600/750",
+        "imageUrl": "images/preview-coffee-base.png",
         "imageAlt": "Arabica coffee in a minimal morning setting"
       },
       {
@@ -219,7 +219,7 @@
         "name": "Daily <em>Radiance</em>",
         "description": "A considered blend of vegan peptides, antioxidants, vitamins and skin-focused nutrients.",
         "cta": "Discover the Formula",
-        "imageUrl": "https://picsum.photos/seed/jagave-formula/600/750",
+        "imageUrl": "images/preview-formula.png",
         "imageAlt": "Powdered functional ingredients arranged for a formula study"
       },
       {
@@ -228,7 +228,7 @@
         "name": "One <em>Sachet</em>",
         "description": "A simple instant format made to work with hot water or milk and the morning routine you already follow.",
         "cta": "Explore the Ritual",
-        "imageUrl": "https://picsum.photos/seed/jagave-ritual/600/750",
+        "imageUrl": "images/preview-ritual.png",
         "imageAlt": "A single coffee sachet beside a ceramic cup"
       }
     ]
@@ -264,7 +264,9 @@
       { "label": "Contact", "href": "#waitlist" },
       { "label": "Press", "href": "#waitlist" },
       { "label": "Careers", "href": "#waitlist" },
-      { "label": "Instagram", "href": "#waitlist" }
+      { "label": "Instagram", "href": "#waitlist" },
+      { "label": "Privacy Policy", "href": "privacy.html" },
+      { "label": "Terms of Service", "href": "terms.html" }
     ],
     "connect": [
       { "label": "Join the Waitlist", "href": "#waitlist" },

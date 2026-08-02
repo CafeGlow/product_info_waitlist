@@ -13,12 +13,15 @@ Usage:
 Environment variables (load from .env via python-dotenv):
   DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD  — PostgreSQL credentials
   RESEND_API_KEY                                    — Resend API key for email
+  RESEND_FROM_EMAIL, RESEND_FROM_NAME              — Sender identity (verified domain)
+  PUBLIC_ORIGIN                                     — Public site origin (for CORS + email links)
 """
 
 import os
 import sys
 import logging
 from pathlib import Path
+from urllib.parse import quote
 
 from dotenv import load_dotenv
 
@@ -67,6 +70,11 @@ engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
+# ── Public config ──────────────────────────────────────────────────────────
+PUBLIC_ORIGIN = os.getenv("PUBLIC_ORIGIN", "http://localhost:8000").rstrip("/")
+RESEND_FROM_EMAIL = os.getenv("RESEND_FROM_EMAIL", "onboarding@resend.dev")
+RESEND_FROM_NAME = os.getenv("RESEND_FROM_NAME", "JAGAVE")
+
 
 # ── Waitlist Model ──────────────────────────────────────────────────────────
 class WaitlistEntry(Base):
@@ -74,12 +82,14 @@ class WaitlistEntry(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     email = Column(String(320), unique=True, nullable=False, index=True)
+    source = Column(String(64), nullable=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
 
 # ── Pydantic Schemas ────────────────────────────────────────────────────────
 class WaitlistRequest(BaseModel):
     email: EmailStr
+    source: str | None = None
 
 
 class WaitlistResponse(BaseModel):
@@ -91,7 +101,7 @@ app = FastAPI(title="JAGAVE Waitlist API", version="1.0.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[PUBLIC_ORIGIN],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -101,9 +111,13 @@ app.add_middleware(
 # ── Startup: create tables ──────────────────────────────────────────────────
 @app.on_event("startup")
 def startup():
-    """Create the waitlist table if it doesn't exist."""
+    """Create the waitlist table if it doesn't exist, and apply lightweight migrations."""
     try:
         Base.metadata.create_all(bind=engine)
+        # Lightweight in-place migrations for pre-launch schema evolution.
+        # Safe to run repeatedly thanks to IF NOT EXISTS.
+        with engine.begin() as conn:
+            conn.execute(text("ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS source VARCHAR(64)"))
         logger.info("Database tables checked/created successfully.")
     except Exception as exc:
         logger.warning(
@@ -124,27 +138,37 @@ def send_welcome_email(to_email: str) -> bool:
         logger.info("Resend API key not configured; skipping welcome email to %s", to_email)
         return False
 
+    unsubscribe_url = f"{PUBLIC_ORIGIN}/unsubscribe?email={quote(to_email)}"
+
     try:
         import resend
 
         resend.api_key = api_key
         params = {
-            "from": "JAGAVE <onboarding@resend.dev>",
+            "from": f"{RESEND_FROM_NAME} <{RESEND_FROM_EMAIL}>",
             "to": [to_email],
-            "subject": "You're on the waitlist!",
+            "subject": "You're on the JAGAVE waitlist",
+            "headers": {
+                "List-Unsubscribe": f"<{unsubscribe_url}>",
+                "List-Unsubscribe-Post": "List-Unsubscribe=One-Click",
+            },
             "html": (
-                "<div style='font-family: Inter, sans-serif; max-width: 480px; margin: 0 auto;'>"
-                "  <h2 style='font-family: Georgia, serif; font-weight: 300; color: #1C1917;'>"
+                "<div style='font-family: Inter, sans-serif; max-width: 480px; margin: 0 auto; padding: 1rem;'>"
+                "  <h2 style='font-family: Georgia, serif; font-weight: 300; color: #1C1917; margin: 0 0 1rem;'>"
                 "    You're on the list."
                 "  </h2>"
-                "  <p style='color: #555; line-height: 1.6;'>"
+                "  <p style='color: #444; line-height: 1.65; margin: 0 0 1rem;'>"
                 "    Thank you for joining the JAGAVE waitlist. "
                 "    We'll send quiet notes from the studio, release timing, "
                 "    and an invitation when the first pour is ready."
                 "  </p>"
+                "  <p style='color: #444; line-height: 1.65; margin: 0 0 1.5rem;'>"
+                "    If you'd prefer not to hear from us, you can unsubscribe at any time."
+                "  </p>"
                 "  <hr style='border: 0; border-top: 1px solid #eee; margin: 1.5rem 0;'>"
-                "  <p style='color: #888; font-size: 0.85rem;'>"
-                "    — JAGAVE Studio · Kyoto ↔ Brooklyn"
+                "  <p style='color: #888; font-size: 0.8rem; line-height: 1.5; margin: 0;'>"
+                f"    &mdash; {RESEND_FROM_NAME} Studio<br>"
+                f"    <a href='{unsubscribe_url}' style='color: #888;'>Unsubscribe</a>"
                 "  </p>"
                 "</div>"
             ),
@@ -171,7 +195,10 @@ def join_waitlist(payload: WaitlistRequest):
         # Test connectivity
         db.execute(text("SELECT 1"))
 
-        entry = WaitlistEntry(email=payload.email)
+        # Normalise source to a safe length before persisting.
+        source = (payload.source or "").strip()[:64] or None
+
+        entry = WaitlistEntry(email=payload.email, source=source)
         db.add(entry)
         db.commit()
         db.refresh(entry)

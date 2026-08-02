@@ -31,6 +31,13 @@
     if (!image) return;
     image.src = imageUrl;
     image.alt = alt || '';
+    // If the image fails to load (e.g. file not yet supplied), hide the broken-image
+    // icon and mark the parent so CSS can show a richer "image arriving" placeholder.
+    image.addEventListener('error', () => {
+      image.style.display = 'none';
+      const frame = image.closest('.hero-frame, .card-img, .product-img');
+      if (frame) frame.classList.add('is-empty');
+    }, { once: true });
   }
 
   function escapeHtml(value) {
@@ -139,7 +146,7 @@
     document.querySelector('[data-list="ingredients"]').innerHTML = ingredients.map((ingredient, index) => (
       `<article class="formula-card" data-hover>` +
       `<span class="card-num">${String(index + 1).padStart(2, '0')}</span>` +
-      `<div class="card-img"><img src="${escapeHtml(ingredient.imageUrl)}" alt="${escapeHtml(ingredient.imageAlt)}"></div>` +
+      `<div class="card-img"><img src="${escapeHtml(ingredient.imageUrl)}" alt="${escapeHtml(ingredient.imageAlt)}" onerror="this.style.display='none';this.parentElement.classList.add('is-empty')"></div>` +
       `<span class="card-label">— ${escapeHtml(ingredient.cosmeticBenefit)}</span>` +
       `<h3 class="card-title">${escapeHtml(ingredient.name)}</h3>` +
       `<p class="card-latin">${escapeHtml(ingredient.botanicalName)}</p>` +
@@ -170,7 +177,7 @@
 
     document.querySelector('[data-list="preview"]').innerHTML = preview.cards.map((card) => (
       `<article class="product-card" data-hover>` +
-      `<div class="product-img"><span class="product-tag">${escapeHtml(card.tag)}</span><img src="${escapeHtml(card.imageUrl)}" alt="${escapeHtml(card.imageAlt)}"></div>` +
+      `<div class="product-img"><span class="product-tag">${escapeHtml(card.tag)}</span><img src="${escapeHtml(card.imageUrl)}" alt="${escapeHtml(card.imageAlt)}" onerror="this.style.display='none';this.parentElement.classList.add('is-empty')"></div>` +
       `<div class="product-meta"><span class="label">${escapeHtml(card.label)}</span></div>` +
       `<h3 class="product-name">${card.name}</h3>` +
       `<p class="product-desc">${escapeHtml(card.description)}</p>` +
@@ -276,38 +283,74 @@
   function initializeCursor() {
     const dot = document.querySelector('.cursor-dot');
     const ring = document.querySelector('.cursor-ring');
-    let mouseX = 0;
-    let mouseY = 0;
-    let ringX = 0;
-    let ringY = 0;
+    if (!dot || !ring) return;
 
-    document.addEventListener('mousemove', (event) => {
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = mouseX;
+    let ringY = mouseY;
+    let isVisible = false;
+    let activeHoverTarget = null;
+
+    function setVisible(visible) {
+      isVisible = visible;
+      dot.classList.toggle('is-visible', visible);
+      ring.classList.toggle('is-visible', visible);
+      dot.classList.toggle('is-hidden', !visible);
+      ring.classList.toggle('is-hidden', !visible);
+    }
+
+    function setHoverTarget(target) {
+      if (target === activeHoverTarget) return;
+      activeHoverTarget = target;
+      dot.classList.toggle('is-hover', Boolean(target));
+      ring.classList.toggle('is-hover', Boolean(target));
+    }
+
+    function updateContrast(event) {
+      const target = event.target instanceof Element ? event.target : null;
+      const isInverted = Boolean(target && target.closest('.newsletter, footer, .mobile-menu.is-open'));
+      dot.classList.toggle('is-inverted', isInverted);
+      ring.classList.toggle('is-inverted', isInverted);
+    }
+
+    document.addEventListener('pointermove', (event) => {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
       mouseX = event.clientX;
       mouseY = event.clientY;
-      dot.style.transform = `translate(${mouseX}px, ${mouseY}px) translate(-50%, -50%)`;
-    });
+      dot.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+      if (!isVisible) setVisible(true);
+      updateContrast(event);
+    }, { passive: true });
 
     function tick() {
       ringX += (mouseX - ringX) * 0.18;
       ringY += (mouseY - ringY) * 0.18;
-      ring.style.transform = `translate(${ringX}px, ${ringY}px) translate(-50%, -50%)`;
+      ring.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%)`;
       requestAnimationFrame(tick);
     }
     tick();
 
-    document.querySelectorAll('[data-hover]').forEach((element) => {
-      element.addEventListener('mouseenter', () => {
-        dot.classList.add('is-hover');
-        ring.classList.add('is-hover');
-      });
-      element.addEventListener('mouseleave', () => {
-        dot.classList.remove('is-hover');
-        ring.classList.remove('is-hover');
-      });
-    });
+    document.addEventListener('pointerover', (event) => {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      const target = event.target instanceof Element
+        ? event.target.closest('[data-hover], a, button, input, textarea, select, label')
+        : null;
+      setHoverTarget(target);
+    }, { passive: true });
 
-    document.addEventListener('mouseleave', () => ring.classList.add('is-hidden'));
-    document.addEventListener('mouseenter', () => ring.classList.remove('is-hidden'));
+    document.addEventListener('pointerout', (event) => {
+      if (event.pointerType && event.pointerType !== 'mouse') return;
+      const nextTarget = event.relatedTarget instanceof Element
+        ? event.relatedTarget.closest('[data-hover], a, button, input, textarea, select, label')
+        : null;
+      setHoverTarget(nextTarget);
+    }, { passive: true });
+
+    document.addEventListener('mouseleave', () => {
+      setHoverTarget(null);
+      setVisible(false);
+    });
   }
 
   function initializeHeroAnimation(prefersReducedMotion) {
@@ -389,74 +432,117 @@
 
   function initializeHorizontalFormula(prefersReducedMotion) {
     const pinViewport = document.getElementById('pin-viewport');
+    const pinStage = document.getElementById('pin-stage');
     const pinTrack = document.getElementById('pin-track');
     const pinBar = document.getElementById('pin-bar');
-    let pinScrollWidth = 0;
-    let lastY = window.scrollY;
-    let skewTimeout = null;
+    if (!pinViewport || !pinStage || !pinTrack || !pinBar) return;
 
-    function recalcPin() {
-      if (window.innerWidth < 1024) {
-        pinViewport.style.height = '';
-        pinTrack.style.transform = '';
-        return;
-      }
-      pinScrollWidth = Math.max(0, pinTrack.scrollWidth - window.innerWidth);
-      pinViewport.style.height = (window.innerHeight + pinScrollWidth) + 'px';
+    function getScrollDistance() {
+      return Math.max(0, pinTrack.scrollWidth - pinStage.clientWidth);
     }
 
-    function updatePin() {
-      if (window.innerWidth < 1024 || pinScrollWidth === 0) return;
-      const top = pinViewport.getBoundingClientRect().top;
-      if (top <= 0 && top >= -pinScrollWidth) {
-        const progress = (-top) / pinScrollWidth;
-        pinTrack.style.transform = `translate3d(${-progress * pinScrollWidth}px, 0, 0)`;
-        pinBar.style.width = (progress * 100) + '%';
-        const velocity = window.scrollY - lastY;
-        lastY = window.scrollY;
-        if (!prefersReducedMotion) {
-          const skew = Math.max(-8, Math.min(8, velocity * 0.4));
-          pinTrack.querySelectorAll('.formula-card').forEach((card) => { card.style.transform = `skewX(${skew}deg)`; });
-          clearTimeout(skewTimeout);
-          skewTimeout = setTimeout(() => pinTrack.querySelectorAll('.formula-card').forEach((card) => { card.style.transform = 'skewX(0deg)'; }), 200);
-        }
-      } else if (top > 0) {
-        pinTrack.style.transform = 'translate3d(0, 0, 0)';
+    if (prefersReducedMotion) {
+      pinStage.style.height = 'auto';
+      pinStage.style.overflowX = 'auto';
+      pinBar.style.width = '100%';
+      return;
+    }
+
+    const mm = gsap.matchMedia();
+    mm.add('(min-width: 1025px)', () => {
+      const tween = gsap.to(pinTrack, {
+        x: () => -getScrollDistance(),
+        ease: 'none',
+        scrollTrigger: {
+          trigger: pinViewport,
+          start: 'top top',
+          end: () => `+=${getScrollDistance()}`,
+          scrub: 0.7,
+          pin: pinStage,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          onUpdate: (self) => {
+            pinBar.style.width = `${Math.round(self.progress * 100)}%`;
+          },
+        },
+      });
+
+      gsap.from('.formula-card', {
+        opacity: 0,
+        y: 40,
+        duration: 0.8,
+        stagger: 0.08,
+        ease: 'power3.out',
+        scrollTrigger: {
+          trigger: '.formula',
+          start: 'top 65%',
+          once: true,
+        },
+      });
+
+      ScrollTrigger.refresh();
+      return () => {
+        tween.scrollTrigger.kill();
+        tween.kill();
+        gsap.set(pinTrack, { clearProps: 'transform' });
         pinBar.style.width = '0%';
-      } else {
-        pinTrack.style.transform = `translate3d(${-pinScrollWidth}px, 0, 0)`;
-        pinBar.style.width = '100%';
-      }
-    }
+      };
+    });
 
-    recalcPin();
-    window.addEventListener('resize', () => { recalcPin(); ScrollTrigger.refresh(); });
-    window.addEventListener('scroll', updatePin, { passive: true });
-    updatePin();
+    mm.add('(max-width: 1024px)', () => {
+      gsap.set(pinTrack, { clearProps: 'transform' });
+      pinBar.style.width = '0%';
+      return () => gsap.set(pinTrack, { clearProps: 'transform' });
+    });
+
+    window.addEventListener('load', () => ScrollTrigger.refresh(), { once: true });
   }
 
   function initializeWaitlistForm() {
     const form = document.getElementById('waitlist-form');
     const email = document.getElementById('waitlist-email');
+    const consent = document.getElementById('waitlist-consent');
     const success = document.getElementById('waitlist-success');
     const note = document.getElementById('waitlist-note');
+    const button = form.querySelector('button[type="submit"]');
+    const originalButtonHTML = button.innerHTML;
+
+    // Read attribution params from URL on load (e.g. ?utm_source=instagram, ?ref=... )
+    const urlParams = new URLSearchParams(window.location.search);
+    const source = urlParams.get('utm_source') || urlParams.get('ref') || urlParams.get('source') || null;
 
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
 
       const emailValue = email.value.trim();
-      if (!emailValue || !email.checkValidity()) return;
+      if (!emailValue || !email.checkValidity()) {
+        email.focus();
+        return;
+      }
+
+      if (!consent.checked) {
+        note.textContent = 'Please agree to the privacy policy to continue.';
+        note.style.color = 'var(--gold)';
+        setTimeout(() => {
+          note.textContent = '';
+          note.style.color = '';
+        }, 4000);
+        consent.focus();
+        return;
+      }
 
       // Disable form while submitting
-      const button = form.querySelector('button[type="submit"]');
       button.disabled = true;
       button.textContent = 'Sending…';
 
       try {
+        const payload = { email: emailValue };
+        if (source) payload.source = source;
+
         const response = await fetch('/api/waitlist', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email: emailValue }),
+          body: JSON.stringify(payload),
         });
 
         const data = await response.json();
@@ -465,6 +551,7 @@
           success.textContent = data.message || 'You are on the list. We will write when the first pour is ready.';
           success.classList.add('is-shown');
           email.value = '';
+          consent.checked = false;
           setTimeout(() => success.classList.remove('is-shown'), 6000);
         } else if (response.status === 409) {
           // Duplicate — friendly message
@@ -489,16 +576,7 @@
         }, 5000);
       } finally {
         button.disabled = false;
-        button.innerHTML = '<span id="waitlist-button"></span><span>→</span>';
-        // Re-populate the button text from data since we overwrote it
-        (async () => {
-          try {
-            const resp = await fetch('data.json');
-            const d = await resp.json();
-            const btn = document.querySelector('#waitlist-button');
-            if (btn) btn.textContent = d.waitlist.button;
-          } catch (_) {}
-        })();
+        button.innerHTML = originalButtonHTML;
       }
     });
   }
