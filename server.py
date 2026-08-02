@@ -4,14 +4,14 @@ JAGAVE Waitlist Server
 FastAPI backend that:
   - Serves the static frontend files
   - Accepts waitlist email submissions via POST /api/waitlist
-  - Stores emails in PostgreSQL (auto-creates table on startup)
+  - Stores emails in Turso (libSQL/SQLite; auto-creates table on startup)
   - Sends a welcome confirmation email via Resend
 
 Usage:
     python server.py [port]
 
 Environment variables (load from .env via python-dotenv):
-  DB_HOST, DB_PORT, DB_NAME, DB_USER, DB_PASSWORD  — PostgreSQL credentials
+  TURSO_DATABASE_URL, TURSO_AUTH_TOKEN              — Turso connection details
   RESEND_API_KEY                                    — Resend API key for email
   RESEND_FROM_EMAIL, RESEND_FROM_NAME              — Sender identity (verified domain)
   PUBLIC_ORIGIN                                     — Public site origin (for CORS + email links)
@@ -21,7 +21,7 @@ import os
 import sys
 import logging
 from pathlib import Path
-from urllib.parse import quote
+from urllib.parse import quote, quote_plus
 
 from dotenv import load_dotenv
 
@@ -56,15 +56,28 @@ logger = logging.getLogger("jagave")
 PORT = int(sys.argv[1]) if len(sys.argv) > 1 else int(os.getenv("PORT", "8000"))
 
 # ── Database ────────────────────────────────────────────────────────────────
-DB_HOST = os.getenv("DB_HOST", "localhost")
-DB_PORT = os.getenv("DB_PORT", "5432")
-DB_NAME = os.getenv("DB_NAME", "jagave_waitlist")
-DB_USER = os.getenv("DB_USER", "postgres")
-DB_PASSWORD = os.getenv("DB_PASSWORD", "")
-
-DATABASE_URL = (
-    f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+TURSO_DATABASE_URL = os.getenv(
+    "TURSO_DATABASE_URL",
+    "libsql://globrewwaitlist-pulkit3010.aws-ap-northeast-1.turso.io",
 )
+TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN", "")
+
+
+def sqlalchemy_database_url(database_url: str, auth_token: str = "") -> str:
+    """Convert a Turso libSQL URL into sqlalchemy-libsql's URL format."""
+    if not database_url.startswith("libsql://"):
+        # Useful for local development/tests with a regular sqlite:/// URL.
+        return database_url
+
+    url = f"sqlite+{database_url}"
+    query = ["secure=true"]
+    if auth_token:
+        query.append(f"authToken={quote_plus(auth_token)}")
+    separator = "&" if "?" in url else "?"
+    return f"{url}{separator}{'&'.join(query)}"
+
+
+DATABASE_URL = sqlalchemy_database_url(TURSO_DATABASE_URL, TURSO_AUTH_TOKEN)
 
 engine = create_engine(DATABASE_URL, pool_pre_ping=True)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
@@ -114,14 +127,18 @@ def startup():
     """Create the waitlist table if it doesn't exist, and apply lightweight migrations."""
     try:
         Base.metadata.create_all(bind=engine)
-        # Lightweight in-place migrations for pre-launch schema evolution.
-        # Safe to run repeatedly thanks to IF NOT EXISTS.
+        # SQLite does not support ADD COLUMN IF NOT EXISTS. Inspecting the
+        # schema first keeps this lightweight migration safe on every boot.
         with engine.begin() as conn:
-            conn.execute(text("ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS source VARCHAR(64)"))
+            columns = {
+                row[1] for row in conn.execute(text("PRAGMA table_info(waitlist)"))
+            }
+            if "source" not in columns:
+                conn.execute(text("ALTER TABLE waitlist ADD COLUMN source VARCHAR(64)"))
         logger.info("Database tables checked/created successfully.")
     except Exception as exc:
         logger.warning(
-            "Could not connect to PostgreSQL (%s). "
+            "Could not connect to Turso (%s). "
             "Waitlist endpoint will return 503 until the database is available.",
             exc,
         )
