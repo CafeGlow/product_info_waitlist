@@ -21,7 +21,7 @@ import os
 import sys
 import logging
 from pathlib import Path
-from urllib.parse import quote, quote_plus
+from urllib.parse import quote
 
 from dotenv import load_dotenv
 
@@ -63,23 +63,32 @@ TURSO_DATABASE_URL = os.getenv(
 TURSO_AUTH_TOKEN = os.getenv("TURSO_AUTH_TOKEN", "")
 
 
-def sqlalchemy_database_url(database_url: str, auth_token: str = "") -> str:
-    """Convert a Turso libSQL URL into sqlalchemy-libsql's URL format."""
-    if not database_url.startswith("libsql://"):
-        # Useful for local development/tests with a regular sqlite:/// URL.
-        return database_url
+def _build_engine():
+    """Build the SQLAlchemy engine for Turso (libsql) or local SQLite.
 
-    url = f"sqlite+{database_url}"
-    query = ["secure=true"]
-    if auth_token:
-        query.append(f"authToken={quote_plus(auth_token)}")
-    separator = "&" if "?" in url else "?"
-    return f"{url}{separator}{'&'.join(query)}"
+    `sqlalchemy-libsql` 0.2.0's URL parser drops `authToken` from the query
+    string before it reaches `libsql.connect()`, so Turso always rejects the
+    connection with `empty JWT token`. We hand libsql the token directly via
+    a `creator` while keeping the libsql dialect so its `on_connect` skips
+    `create_function` (which libsql does not support).
+    """
+    if TURSO_DATABASE_URL.startswith("libsql://"):
+        import libsql_experimental as libsql
+
+        def _creator():
+            return libsql.connect(TURSO_DATABASE_URL, auth_token=TURSO_AUTH_TOKEN)
+
+        return create_engine(
+            "sqlite+libsql://",
+            creator=_creator,
+            pool_pre_ping=True,
+        )
+
+    # Fallback for local SQLite (e.g. testing without Turso).
+    return create_engine(TURSO_DATABASE_URL, pool_pre_ping=True)
 
 
-DATABASE_URL = sqlalchemy_database_url(TURSO_DATABASE_URL, TURSO_AUTH_TOKEN)
-
-engine = create_engine(DATABASE_URL, pool_pre_ping=True)
+engine = _build_engine()
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
@@ -238,6 +247,15 @@ def join_waitlist(payload: WaitlistRequest):
         )
     except Exception as exc:
         db.rollback()
+        # libsql-experimental surfaces UNIQUE-constraint failures as a raw
+        # ValueError rather than SQLAlchemy's IntegrityError, so detect that
+        # here as well and translate it to 409.
+        if "UNIQUE constraint failed" in str(exc):
+            logger.info("Duplicate waitlist attempt: %s", payload.email)
+            raise HTTPException(
+                status_code=409,
+                detail="This email is already on the waitlist.",
+            )
         logger.error("Database error processing %s: %s", payload.email, exc)
         raise HTTPException(
             status_code=503,
