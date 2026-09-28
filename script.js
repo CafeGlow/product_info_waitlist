@@ -105,7 +105,13 @@
 
   function populateMarquee(items) {
     const marquee = document.querySelector('[data-list="marquee"]');
-    marquee.innerHTML = [...items, ...items].map((item) => `<span class="marquee-item">${escapeHtml(item)}</span>`).join('');
+    const renderItems = () => items.map((item) => `<span class="marquee-item">${escapeHtml(item)}</span>`).join('');
+
+    // Keep the repeated copies in equal-width groups so the animation can loop
+    // at the exact point where the second copy reaches the viewport.
+    marquee.innerHTML =
+      `<div class="marquee-group">${renderItems()}</div>` +
+      `<div class="marquee-group" aria-hidden="true">${renderItems()}</div>`;
   }
 
   function populateManifesto(manifesto) {

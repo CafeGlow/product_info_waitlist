@@ -434,9 +434,17 @@
     background: var(--cream);
   }
   .marquee-track {
-    display: flex; gap: 4rem;
+    --marquee-gap: 4rem;
+    display: flex;
+    gap: var(--marquee-gap);
     animation: marquee 40s linear infinite;
     width: max-content;
+    will-change: transform;
+  }
+  .marquee-group {
+    display: flex;
+    flex-shrink: 0;
+    gap: var(--marquee-gap);
   }
   .marquee-item {
     font-family: var(--font-serif);
@@ -454,8 +462,14 @@
     font-style: normal;
   }
   @keyframes marquee {
-    from { transform: translateX(0); }
-    to   { transform: translateX(-50%); }
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(calc(-50% - (var(--marquee-gap) / 2)), 0, 0); }
+  }
+
+  @media (max-width: 768px) {
+    .marquee { padding: 1.75rem 0; }
+    .marquee-track { --marquee-gap: 2rem; animation-duration: 32s; }
+    .marquee-item { font-size: 1.25rem; gap: 2rem; }
   }
 
   /* ============ MANIFESTO ============ */
