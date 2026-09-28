@@ -25,7 +25,7 @@
 |---|---|---|
 | **Backend framework** | FastAPI | Modern, async-ready, auto OpenAPI docs at `/docs`. |
 | **ASGI server** | Uvicorn | Standard for FastAPI. |
-| **Database** | PostgreSQL (via SQLAlchemy ORM) | Reliable, well-supported; auto-creates `waitlist` table on startup. |
+| **Database** | Turso (libSQL/SQLite via SQLAlchemy ORM) | Hosted SQLite with an auto-created `waitlist` table. |
 | **Email** | Resend | Simple API, generous free tier (100 emails/day), Python SDK. |
 | **Env config** | python-dotenv | Loads `.env` at import time. |
 | **Frontend** | Vanilla HTML / CSS / JS (no framework) | Served as static files by FastAPI. GSAP + Lenis for animation. |
@@ -73,7 +73,7 @@ pip install -r requirements.txt
 
 # 3. Configure database & email
 cp .env.example .env    # if you have an example file, otherwise edit .env directly
-# Edit .env with your PostgreSQL credentials and Resend API key
+# Add your Turso auth token and Resend API key to .env
 
 # 4. Start the server
 python server.py        # defaults to port 8000
@@ -124,20 +124,20 @@ Responses:
 
 ```sql
 CREATE TABLE IF NOT EXISTS waitlist (
-    id         SERIAL PRIMARY KEY,
+    id         INTEGER PRIMARY KEY AUTOINCREMENT,
     email      VARCHAR(320) UNIQUE NOT NULL,
     source     VARCHAR(64),                   -- attribution: utm_source / ref / source from the form
-    created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 ```
 
-On startup, the server runs a lightweight in-place migration to ensure the `source` column exists:
+On startup, the server checks `PRAGMA table_info(waitlist)` and, for an older table, runs:
 
 ```sql
-ALTER TABLE waitlist ADD COLUMN IF NOT EXISTS source VARCHAR(64);
+ALTER TABLE waitlist ADD COLUMN source VARCHAR(64);
 ```
 
-This is safe to run on every boot (no-op if the column already exists). For larger future schema changes, switch to Alembic.
+The statement is only executed when the column is absent, making startup idempotent. For larger future schema changes, switch to Alembic.
 
 ### Resend Email
 
@@ -175,7 +175,7 @@ User enters email + consent → [frontend] POST /api/waitlist
                                     ↓
                               [FastAPI] Validate email (Pydantic EmailStr)
                                     ↓
-                              [PostgreSQL] INSERT INTO waitlist (email, source, created_at)
+                              [Turso/SQLite] INSERT INTO waitlist (email, source, created_at)
                                     ↓ (on success)
                               [Resend] Send welcome email with List-Unsubscribe header
                                     ↓
@@ -188,11 +188,8 @@ User enters email + consent → [frontend] POST /api/waitlist
 
 | Variable | Default | Required | Description |
 |---|---|---|---|
-| `DB_HOST` | `localhost` | ✅ | PostgreSQL host |
-| `DB_PORT` | `5432` | ✅ | PostgreSQL port |
-| `DB_NAME` | `jagave_waitlist` | ✅ | PostgreSQL database name |
-| `DB_USER` | `postgres` | ✅ | PostgreSQL user |
-| `DB_PASSWORD` | (empty) | ✅ | PostgreSQL password |
+| `TURSO_DATABASE_URL` | `libsql://globrewwaitlist-pulkit3010.aws-ap-northeast-1.turso.io` | — | Turso database URL. Override with `sqlite:///...` for local development. |
+| `TURSO_AUTH_TOKEN` | (empty) | ✅ in prod | Turso database authentication token. Obtain it from the Turso CLI/dashboard; never commit it. |
 | `RESEND_API_KEY` | (empty) | — | Resend API key. If empty, email is skipped gracefully. |
 | `RESEND_FROM_EMAIL` | `onboarding@resend.dev` | — | Sender email. Replace with a verified domain address before launch. |
 | `RESEND_FROM_NAME` | `JAGAVE` | — | Sender display name used in the `From` field. |
@@ -203,7 +200,7 @@ User enters email + consent → [frontend] POST /api/waitlist
 
 ## Deployment Notes
 
-- **Database:** Ensure PostgreSQL is running and accessible. The server auto-creates the `waitlist` table on startup and runs an idempotent `ADD COLUMN IF NOT EXISTS source` migration.
+- **Database:** Set `TURSO_AUTH_TOKEN` in the deployment environment. The configured database is `globrewwaitlist-pulkit3010` in Turso's AWS Tokyo region. The server auto-creates the `waitlist` table and applies its idempotent SQLite schema check on startup.
 - **Resend:** Set `RESEND_API_KEY` to a real API key (from [resend.com](https://resend.com)). The free tier allows 100 emails/day.
 - **Verified domain:** Before launch, verify your sending domain in Resend and update `RESEND_FROM_EMAIL` to an address on that domain. The default `onboarding@resend.dev` only delivers to your own Resend account.
 - **`PUBLIC_ORIGIN`:** Must be set to the deployed URL (e.g. `https://jagave.com`) so the CORS allowlist matches and the unsubscribe link inside emails points at the real site. No trailing slash.
